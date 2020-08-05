@@ -40,6 +40,7 @@ export const logIn = async (req: Request, res: Response) => {
                             expires: new Date(tokenDeathTime),
                             secure: false, // set to true if your using https
                             // httpOnly: true,
+                            sameSite: "none",
                         }).status(200).json({...body});
 
                     }

@@ -43,6 +43,8 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                         res.cookie("token", token, {
                             expires: new Date(tokenDeathTime),
                             secure: false,
+                            // httpOnly: true,
+                            sameSite: "none",
                         }).status(200).json(Object.assign({}, body));
                     }
                 }

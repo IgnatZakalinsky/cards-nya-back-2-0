@@ -42,7 +42,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                         delete body.resetPasswordTokenDeathTime;
                         res.cookie("token", token, {
                             expires: new Date(tokenDeathTime),
-                            secure: false,
+                            secure: true,
                             // httpOnly: true,
                             sameSite: "none",
                         }).status(200).json(Object.assign({}, body));

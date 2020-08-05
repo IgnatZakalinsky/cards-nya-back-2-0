@@ -38,7 +38,7 @@ export const logIn = async (req: Request, res: Response) => {
 
                         res.cookie("token", token, {
                             expires: new Date(tokenDeathTime),
-                            secure: false, // set to true if your using https
+                            secure: true, // set to true if your using https
                             // httpOnly: true,
                             sameSite: "none",
                         }).status(200).json({...body});

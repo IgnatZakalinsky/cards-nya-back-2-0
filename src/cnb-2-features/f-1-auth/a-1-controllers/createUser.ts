@@ -7,41 +7,44 @@ import {DEV_VERSION} from "../../../cnb-1-main/config";
 export const createUser = async (req: Request, res: Response) => {
     if (validateAuth(req, res, "createUser")) {
         try {
-            // error: "some error, email may already exist",
+            const oldUser: IUser | null = await User.findOne({email: req.body.email}).exec();
 
+            if (oldUser) res.status(400)
+                .json({error: "email already exists /ᐠ｡ꞈ｡ᐟ\\", email: req.body.email, in: "createUser"});
 
-            const user: IUser = await User.create(
-                {
-                    email: req.body.email,
-                    password: await bCrypt.hash(req.body.password, 10),
-                    rememberMe: false,
-                    isAdmin: false,
+            else {
+                const user: IUser = await User.create(
+                    {
+                        email: req.body.email,
+                        password: await bCrypt.hash(req.body.password, 10),
+                        rememberMe: false,
+                        isAdmin: false,
 
-                    name: req.body.email,
-                    verified: false,
-                    // avatar: "",
-                    publicCardPacksCount: 0,
+                        name: req.body.email,
+                        verified: false,
+                        // avatar: "",
+                        publicCardPacksCount: 0,
 
-                    // token: "",
-                    // tokenDeathTime: 0,
-                    // resetPasswordToken: "",
-                    // resetPasswordTokenDeathTime: 0,
+                        // token: "",
+                        // tokenDeathTime: 0,
+                        // resetPasswordToken: "",
+                        // resetPasswordTokenDeathTime: 0,
 
-                    created: new Date(),
-                    updated: new Date(),
+                        created: new Date(),
+                        updated: new Date(),
 
-                    _doc: {}, // crutch
-                }
-            );
+                        _doc: {}, // crutch
+                    }
+                );
 
-            const addedUser: any = {...user._doc};
+                const addedUser: any = {...user._doc};
 
-            delete addedUser.password; // don't send password to the front
-            delete addedUser.resetPasswordToken;
-            delete addedUser.resetPasswordTokenDeathTime;
+                delete addedUser.password; // don't send password to the front
+                delete addedUser.resetPasswordToken;
+                delete addedUser.resetPasswordTokenDeathTime;
 
-            res.status(201).json({addedUser, success: true});
-
+                res.status(201).json({addedUser});
+            }
         } catch (e) {
             res.status(500).json({
                 error: "some error: " + e.message,

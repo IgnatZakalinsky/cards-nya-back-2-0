@@ -13,7 +13,7 @@ export const routes = (app: Express) => {
     app.use(VERSION_2_0 + "/ping", (req: Request, res: Response) => {
         // save statistic
         const backTime = new Date().getTime();
-        const frontTime = req.body.frontTime || (backTime + 1);
+        const frontTime = +req.body.frontTime || (req.query.frontTime && +req.query.frontTime) || (backTime + 1);
         const ping = backTime - frontTime;
         console.warn("!!! PING: ", ping); // need log always
 

@@ -16,7 +16,7 @@ exports.routes = (app) => {
     app.use(config_1.VERSION_2_0 + "/ping", (req, res) => {
         // save statistic
         const backTime = new Date().getTime();
-        const frontTime = req.body.frontTime || (backTime + 1);
+        const frontTime = +req.body.frontTime || (req.query.frontTime && +req.query.frontTime) || (backTime + 1);
         const ping = backTime - frontTime;
         console.warn("!!! PING: ", ping); // need log always
         res.status(200).json({

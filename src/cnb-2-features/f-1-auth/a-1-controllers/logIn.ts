@@ -10,8 +10,10 @@ export const logIn = async (req: Request, res: Response) => {
         try {
             const user: IUser | null = await User.findOne({email: req.body.email}).exec();
 
-            if (!user || !(await bCrypt.compare(req.body.password, user.password)))
-                res.status(400).json({error: "not correct email/password /ᐠ-ꞈ-ᐟ\\", in: "logIn"});
+            if (!user)
+                res.status(400).json({error: "user not found /ᐠ-ꞈ-ᐟ\\", email: req.body.email, in: "logIn"});
+            else if (!(await bCrypt.compare(req.body.password, user.password))) res.status(400)
+                .json({error: "not correct password /ᐠ-ꞈ-ᐟ\\", password: req.body.password, in: "logIn"});
 
             else {
                 const [token, tokenDeathTime] = generateToken(!!req.body.rememberMe);

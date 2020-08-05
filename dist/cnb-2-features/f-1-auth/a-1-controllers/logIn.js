@@ -22,8 +22,11 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (validators_1.validateAuth(req, res, "logIn")) {
         try {
             const user = yield user_1.default.findOne({ email: req.body.email }).exec();
-            if (!user || !(yield bcrypt_1.default.compare(req.body.password, user.password)))
-                res.status(400).json({ error: "not correct email/password /ᐠ-ꞈ-ᐟ\\", in: "logIn" });
+            if (!user)
+                res.status(400).json({ error: "user not found /ᐠ-ꞈ-ᐟ\\", email: req.body.email, in: "logIn" });
+            else if (!(yield bcrypt_1.default.compare(req.body.password, user.password)))
+                res.status(400)
+                    .json({ error: "not correct password /ᐠ-ꞈ-ᐟ\\", password: req.body.password, in: "logIn" });
             else {
                 const [token, tokenDeathTime] = generateResetPasswordToken_1.generateToken(!!req.body.rememberMe);
                 try {

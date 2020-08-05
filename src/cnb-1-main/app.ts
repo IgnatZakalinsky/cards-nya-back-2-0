@@ -2,6 +2,9 @@ import {Express, NextFunction, Request, Response} from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import {DEV_VERSION} from "./config";
+
+export const cookieSettings = DEV_VERSION ? {} : {sameSite: "none" as const, secure: true};
 
 export const appUse = (app: Express) => {
     // const whitelist = ['http://localhost:3000', 'http://example2.com'];

@@ -4,6 +4,7 @@ import bCrypt from "bcrypt";
 import {DEV_VERSION} from "../../../cnb-1-main/config";
 import {generateToken} from "../a-3-helpers/h-2-users/generateResetPasswordToken";
 import {validateAuth} from "../a-3-helpers/h-2-users/validators";
+import {cookieSettings} from "../../../cnb-1-main/app";
 
 export const logIn = async (req: Request, res: Response) => {
     if (validateAuth(req, res, "logIn")) {
@@ -17,6 +18,7 @@ export const logIn = async (req: Request, res: Response) => {
 
             else {
                 const [token, tokenDeathTime] = generateToken(!!req.body.rememberMe);
+                console.log("token: ", token);
 
                 try {
                     const newUser: IUser | null = await User.findByIdAndUpdate(
@@ -37,10 +39,8 @@ export const logIn = async (req: Request, res: Response) => {
                         delete body.resetPasswordTokenDeathTime;
 
                         res.cookie("token", token, {
+                            ...cookieSettings,
                             expires: new Date(tokenDeathTime),
-                            secure: true, // set to true if your using https
-                            // httpOnly: true,
-                            sameSite: "none",
                         }).status(200).json({...body});
 
                     }

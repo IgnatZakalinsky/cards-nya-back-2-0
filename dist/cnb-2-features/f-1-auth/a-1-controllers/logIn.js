@@ -30,7 +30,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     .json({ error: "not correct password /ᐠ-ꞈ-ᐟ\\", password: req.body.password, in: "logIn" });
             else {
                 const [token, tokenDeathTime] = generateResetPasswordToken_1.generateToken(!!req.body.rememberMe);
-                console.log("token: ", token);
+                console.log("email: ", user.email, ", token: ", token);
                 try {
                     const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!req.body.rememberMe }, { new: true }).exec();
                     if (!newUser)

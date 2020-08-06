@@ -18,7 +18,7 @@ export const logIn = async (req: Request, res: Response) => {
 
             else {
                 const [token, tokenDeathTime] = generateToken(!!req.body.rememberMe);
-                console.log("token: ", token);
+                console.log("email: ", user.email, ", token: ", token);
 
                 try {
                     const newUser: IUser | null = await User.findByIdAndUpdate(

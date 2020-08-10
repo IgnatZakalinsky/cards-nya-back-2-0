@@ -1,5 +1,5 @@
 import express from "express";
-// import {getUsersForDev} from "./a-1-controllers/getUsersForDev";
+import {getUsersForDev} from "./a-1-controllers/getUsersForDev";
 import {logIn} from "./a-1-controllers/logIn";
 import {createUser} from "./a-1-controllers/createUser";
 import {getMe} from "./a-1-controllers/getMe";
@@ -10,7 +10,7 @@ import {findUserByToken} from "./a-3-helpers/h-2-more/findUserByToken";
 
 const auth = express.Router();
 
-// auth.get("/", getUsersForDev); // for dev
+auth.get("/", getUsersForDev); // for dev
 
 auth.post("/login", logIn);
 auth.post("/register", createUser);

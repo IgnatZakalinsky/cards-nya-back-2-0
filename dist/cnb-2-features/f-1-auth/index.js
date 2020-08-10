@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-// import {getUsersForDev} from "./a-1-controllers/getUsersForDev";
+const getUsersForDev_1 = require("./a-1-controllers/getUsersForDev");
 const logIn_1 = require("./a-1-controllers/logIn");
 const createUser_1 = require("./a-1-controllers/createUser");
 const getMe_1 = require("./a-1-controllers/getMe");
@@ -13,7 +13,7 @@ const findUserByToken_1 = require("./a-3-helpers/h-2-more/findUserByToken");
 // import {setNewPassword} from "./a-1-controllers/setNewPassword";
 // import {updateUser} from "./a-1-controllers/updateUser";
 const auth = express_1.default.Router();
-// auth.get("/", getUsersForDev); // for dev
+auth.get("/", getUsersForDev_1.getUsersForDev); // for dev
 auth.post("/login", logIn_1.logIn);
 auth.post("/register", createUser_1.createUser);
 auth.post("/me", findUserByToken_1.findUserByToken(getMe_1.getMe, "getMe"));

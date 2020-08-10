@@ -5,22 +5,24 @@ import {validateAuth} from "../a-3-helpers/h-2-more/validators";
 import {DEV_VERSION} from "../../../cnb-1-main/config";
 
 export const createUser = async (req: Request, res: Response) => {
+    const {email, password} = req.body;
+
     if (validateAuth(req, res, "createUser")) {
         try {
-            const oldUser: IUser | null = await User.findOne({email: req.body.email}).exec();
+            const oldUser: IUser | null = await User.findOne({email}).exec();
 
-            if (oldUser) res.status(400)
-                .json({error: "email already exists /ᐠ｡ꞈ｡ᐟ\\", email: req.body.email, in: "createUser"});
+            if (oldUser)
+                res.status(400).json({error: "email already exists /ᐠ｡ꞈ｡ᐟ\\", email, in: "createUser"});
 
             else {
                 const user: IUser = await User.create(
                     {
-                        email: req.body.email,
-                        password: await bCrypt.hash(req.body.password, 10),
+                        email,
+                        password: await bCrypt.hash(password, 10),
                         rememberMe: false,
                         isAdmin: false,
 
-                        name: req.body.email,
+                        name: email,
                         verified: false,
                         // avatar: "",
                         publicCardPacksCount: 0,
@@ -48,6 +50,7 @@ export const createUser = async (req: Request, res: Response) => {
         } catch (e) {
             res.status(500).json({
                 error: "some error: " + e.message,
+                info: "Back doesn't know what the error is... ^._.^",
                 errorObject: DEV_VERSION && {...e},
                 in: "createUser/User.create",
             });

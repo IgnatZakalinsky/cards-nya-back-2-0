@@ -18,19 +18,19 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const config_1 = require("../../../cnb-1-main/config");
 exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
     if (validators_1.validateAuth(req, res, "createUser")) {
         try {
-            const oldUser = yield user_1.default.findOne({ email: req.body.email }).exec();
+            const oldUser = yield user_1.default.findOne({ email }).exec();
             if (oldUser)
-                res.status(400)
-                    .json({ error: "email already exists /ᐠ｡ꞈ｡ᐟ\\", email: req.body.email, in: "createUser" });
+                res.status(400).json({ error: "email already exists /ᐠ｡ꞈ｡ᐟ\\", email, in: "createUser" });
             else {
                 const user = yield user_1.default.create({
-                    email: req.body.email,
-                    password: yield bcrypt_1.default.hash(req.body.password, 10),
+                    email,
+                    password: yield bcrypt_1.default.hash(password, 10),
                     rememberMe: false,
                     isAdmin: false,
-                    name: req.body.email,
+                    name: email,
                     verified: false,
                     // avatar: "",
                     publicCardPacksCount: 0,
@@ -52,6 +52,7 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         catch (e) {
             res.status(500).json({
                 error: "some error: " + e.message,
+                info: "Back doesn't know what the error is... ^._.^",
                 errorObject: config_1.DEV_VERSION && Object.assign({}, e),
                 in: "createUser/User.create",
             });

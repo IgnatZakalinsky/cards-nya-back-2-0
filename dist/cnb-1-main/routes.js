@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.routes = void 0;
+const config_1 = require("./config");
 const f_1_auth_1 = __importDefault(require("../cnb-2-features/f-1-auth"));
 // import cards from "../cnb-2-features/f-2-cards";
-const config_1 = require("./config");
 // import social from "../cnb-2-features/f-3-social";
 exports.routes = (app) => {
     app.use(config_1.VERSION_2_0 + "/auth", f_1_auth_1.default);
@@ -26,7 +26,7 @@ exports.routes = (app) => {
             info: "please send me you time —ฅ/ᐠ.̫ .ᐟ\\ฅ—",
         });
     });
-    //default
+    // default
     app.use((req, res) => {
         console.log("Nya-bad url: ", req.method, req.url);
         res.status(404).json({

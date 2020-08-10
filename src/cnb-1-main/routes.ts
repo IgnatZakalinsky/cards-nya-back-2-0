@@ -1,7 +1,7 @@
 import {Express, Request, Response} from "express";
+import {VERSION_2_0} from "./config";
 import auth from "../cnb-2-features/f-1-auth";
 // import cards from "../cnb-2-features/f-2-cards";
-import {VERSION_2_0} from "./config";
 // import social from "../cnb-2-features/f-3-social";
 
 export const routes = (app: Express) => {
@@ -25,7 +25,7 @@ export const routes = (app: Express) => {
         });
     });
 
-    //default
+    // default
     app.use((req: Request, res: Response) => {
         console.log("Nya-bad url: ", req.method, req.url);
         res.status(404).json({

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortUsers, userName, min, max } = req.query;
     let pageF = +page || 1;

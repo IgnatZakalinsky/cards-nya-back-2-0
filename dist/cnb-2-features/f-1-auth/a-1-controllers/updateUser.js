@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
-const findUserByToken_1 = require("../a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../a-3-helpers/h-2-more/findUserByToken");
 exports.updateUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, avatar } = req.body;
     user_1.default.findByIdAndUpdate(user._id, {

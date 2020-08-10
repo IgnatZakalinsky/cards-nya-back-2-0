@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {IUser} from "../../f-1-auth/a-2-models/user";
 import GeneralChatMessage, {IGeneralChatMessage} from "../s-2-models/generalChatMessage";
-import {status500} from "../../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 
 export const getGeneralMessages = async (req: Request, res: Response, user: IUser) => {
     const {} = req.query;

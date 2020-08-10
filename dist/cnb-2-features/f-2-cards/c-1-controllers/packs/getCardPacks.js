@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCardPacks = void 0;
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
-const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortPacks, packName, min, max, user_id } = req.query;
     let pageF = +page || 1;

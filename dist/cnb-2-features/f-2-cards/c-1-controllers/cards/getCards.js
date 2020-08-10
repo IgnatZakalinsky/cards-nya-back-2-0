@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCards = void 0;
-const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 const card_1 = __importDefault(require("../../c-2-models/card"));
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const grade_1 = __importDefault(require("../../c-2-models/grade"));

@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../../f-1-auth/a-2-models/user";
-import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import CardsPack, {ICardsPack} from "../../c-2-models/cardsPack";
 
 export const deleteCardsPack = async (req: Request, res: Response, user: IUser) => {

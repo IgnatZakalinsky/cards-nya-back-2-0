@@ -2,9 +2,9 @@ import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import bCrypt from "bcrypt";
 import {DEV_VERSION} from "../../../cnb-1-main/config";
-import {generateToken} from "../a-3-helpers/h-2-users/generateResetPasswordToken";
-import {validateAuth} from "../a-3-helpers/h-2-users/validators";
-import {cookieSettings} from "../../../cnb-1-main/app";
+import {generateToken} from "../a-3-helpers/h-2-more/generateResetPasswordToken";
+import {validateAuth} from "../a-3-helpers/h-2-more/validators";
+import {getMe} from "./getMe";
 
 export const logIn = async (req: Request, res: Response) => {
     if (validateAuth(req, res, "logIn")) {
@@ -31,18 +31,9 @@ export const logIn = async (req: Request, res: Response) => {
                         .json({error: "not updated? /ᐠ｡ꞈ｡ᐟ\\", in: "logIn/User.findByIdAndUpdate"});
 
                     else {
+
                         // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
-                        const body: any = {...newUser._doc}; // _doc!!!
-
-                        delete body.password; // don't send password to the front
-                        delete body.resetPasswordToken;
-                        delete body.resetPasswordTokenDeathTime;
-
-                        res.cookie("token", token, {
-                            ...cookieSettings,
-                            expires: new Date(tokenDeathTime),
-                        }).status(200).json({...body});
-
+                        await getMe(req, res, newUser._doc as IUser)
                     }
                 } catch (e) {
                     res.status(500).json({

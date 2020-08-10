@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {IUser} from "../../../f-1-auth/a-2-models/user";
 import CardsPack, {ICardsPack} from "../../c-2-models/cardsPack";
-import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import Card, {ICard} from "../../c-2-models/card";
 
 export const addCard = async (req: Request, res: Response, user: IUser) => {

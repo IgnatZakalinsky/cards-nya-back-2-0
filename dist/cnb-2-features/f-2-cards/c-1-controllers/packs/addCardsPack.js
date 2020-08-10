@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addCardsPack = void 0;
 const user_1 = __importDefault(require("../../../f-1-auth/a-2-models/user"));
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
-const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 exports.addCardsPack = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { cardsPack } = req.body;
     if (!cardsPack)

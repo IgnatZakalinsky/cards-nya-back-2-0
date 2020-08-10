@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.passwordRecovery = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const config_1 = require("../../../cnb-1-main/config");
-const gmail_1 = require("../a-3-helpers/h-1-gmail/gmail");
-const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-users/generateResetPasswordToken");
-const validators_1 = require("../a-3-helpers/h-2-users/validators");
+const gmail_1 = require("../a-3-helpers/h-3-gmail/gmail");
+const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-more/generateResetPasswordToken");
+const validators_1 = require("../a-3-helpers/h-2-more/validators");
 exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validators_1.emailValidator(req.body.email))
         res.status(400)

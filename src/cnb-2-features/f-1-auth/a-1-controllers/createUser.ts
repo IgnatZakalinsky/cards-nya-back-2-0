@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import bCrypt from "bcrypt";
-import {validateAuth} from "../a-3-helpers/h-2-users/validators";
+import {validateAuth} from "../a-3-helpers/h-2-more/validators";
 import {DEV_VERSION} from "../../../cnb-1-main/config";
 
 export const createUser = async (req: Request, res: Response) => {

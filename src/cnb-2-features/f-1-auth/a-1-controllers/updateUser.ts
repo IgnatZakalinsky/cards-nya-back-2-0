@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
-import {status400, status500} from "../a-3-helpers/h-2-users/findUserByToken";
+import {status400, status500} from "../a-3-helpers/h-2-more/findUserByToken";
 
 export const updateUser = async (req: Request, res: Response, user: IUser) => {
     const {name, avatar} = req.body;

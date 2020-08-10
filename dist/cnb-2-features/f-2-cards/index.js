@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const getCardPacks_1 = require("./c-1-controllers/packs/getCardPacks");
-const findUserByToken_1 = require("../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 const addCardsPack_1 = require("./c-1-controllers/packs/addCardsPack");
 const deleteCardsPack_1 = require("./c-1-controllers/packs/deleteCardsPack");
 const updateCardsPack_1 = require("./c-1-controllers/packs/updateCardsPack");

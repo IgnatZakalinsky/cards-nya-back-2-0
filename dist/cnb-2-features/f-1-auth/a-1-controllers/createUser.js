@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const validators_1 = require("../a-3-helpers/h-2-users/validators");
+const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const config_1 = require("../../../cnb-1-main/config");
 exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (validators_1.validateAuth(req, res, "createUser")) {

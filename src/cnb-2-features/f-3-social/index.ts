@@ -1,5 +1,5 @@
 import express from "express";
-import {findUserByToken} from "../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {findUserByToken} from "../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import {getUsers} from "./s-1-controllers/getUsers";
 import {addGeneralMessage} from "./s-1-controllers/addGeneralMessage";
 import {getGeneralMessages} from "./s-1-controllers/getGeneralMessages";

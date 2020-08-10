@@ -1,6 +1,6 @@
 import express from "express";
 import {getCardPacks} from "./c-1-controllers/packs/getCardPacks";
-import {findUserByToken} from "../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {findUserByToken} from "../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import {addCardsPack} from "./c-1-controllers/packs/addCardsPack";
 import {deleteCardsPack} from "./c-1-controllers/packs/deleteCardsPack";
 import {updateCardsPack} from "./c-1-controllers/packs/updateCardsPack";

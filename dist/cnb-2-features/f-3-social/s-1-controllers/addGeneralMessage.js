@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addGeneralMessage = void 0;
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-users/findUserByToken");
+const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 const generalChatMessage_1 = __importDefault(require("../s-2-models/generalChatMessage"));
 exports.addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { message } = req.body;

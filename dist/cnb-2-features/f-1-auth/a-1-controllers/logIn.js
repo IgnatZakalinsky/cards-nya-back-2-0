@@ -16,9 +16,9 @@ exports.logIn = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../../../cnb-1-main/config");
-const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-users/generateResetPasswordToken");
-const validators_1 = require("../a-3-helpers/h-2-users/validators");
-const app_1 = require("../../../cnb-1-main/app");
+const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-more/generateResetPasswordToken");
+const validators_1 = require("../a-3-helpers/h-2-more/validators");
+const getMe_1 = require("./getMe");
 exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (validators_1.validateAuth(req, res, "logIn")) {
         try {
@@ -38,11 +38,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                             .json({ error: "not updated? /ᐠ｡ꞈ｡ᐟ\\", in: "logIn/User.findByIdAndUpdate" });
                     else {
                         // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
-                        const body = Object.assign({}, newUser._doc); // _doc!!!
-                        delete body.password; // don't send password to the front
-                        delete body.resetPasswordToken;
-                        delete body.resetPasswordTokenDeathTime;
-                        res.cookie("token", token, Object.assign(Object.assign({}, app_1.cookieSettings), { expires: new Date(tokenDeathTime) })).status(200).json(Object.assign({}, body));
+                        yield getMe_1.getMe(req, res, newUser._doc);
                     }
                 }
                 catch (e) {

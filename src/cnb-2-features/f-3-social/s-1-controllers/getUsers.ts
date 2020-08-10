@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../f-1-auth/a-2-models/user";
-import {status500} from "../../f-1-auth/a-3-helpers/h-2-users/findUserByToken";
+import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 
 export const getUsers = async (req: Request, res: Response, user: IUser) => {
     const {page, pageCount, sortUsers, userName, min, max} = req.query;

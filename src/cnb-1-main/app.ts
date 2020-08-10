@@ -1,27 +1,9 @@
 import {Express, NextFunction, Request, Response} from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import {DEV_VERSION} from "./config";
-
-export const cookieSettings = DEV_VERSION ? {} : {sameSite: "none" as const, secure: true};
+import {cookie} from "./cookie";
 
 export const appUse = (app: Express) => {
-    // const whitelist = ['http://localhost:3000', 'http://example2.com'];
-    const corsOptions = {
-        credentials: true,
-        origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-            // if(whitelist.includes(origin || ""))
-            //     return callback(null, true)
-            //
-            // callback(new Error('Not allowed by CORS'));
-            console.log("origin: ", origin);
-            callback(null, true); // everyone is allowed
-        }
-    };
-
-    app.use(cors(corsOptions));
-    app.use(cookieParser());
+    cookie(app);
 
     // parse application/json
     app.use(bodyParser.json({limit: "7mb"}));

@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../a-2-models/user";
-import {generateToken} from "./generateResetPasswordToken";
+import {generateToken} from "./generateToken";
 import {DEV_VERSION} from "../../../../cnb-1-main/config";
 
 export const findUserByToken = (

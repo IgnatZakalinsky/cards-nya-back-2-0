@@ -34,4 +34,4 @@ exports.generateToken = (rememberMe) => {
         : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
     return [token, tokenDeathTime];
 };
-//# sourceMappingURL=generateResetPasswordToken.js.map
+//# sourceMappingURL=generateToken.js.map

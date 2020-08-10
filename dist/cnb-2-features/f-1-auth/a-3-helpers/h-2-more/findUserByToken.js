@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findUserByToken = void 0;
 const user_1 = __importDefault(require("../../a-2-models/user"));
-const generateResetPasswordToken_1 = require("./generateResetPasswordToken");
+const generateToken_1 = require("./generateToken");
 const config_1 = require("../../../../cnb-1-main/config");
 exports.findUserByToken = (f, inTry) => (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.token;
@@ -24,7 +24,7 @@ exports.findUserByToken = (f, inTry) => (req, res) => __awaiter(void 0, void 0, 
             res.status(401)
                 .json({ error: "you are not authorized /ᐠ-ꞈ-ᐟ\\", in: inTry + "/findUserByToken/User.findOne" });
         else {
-            const [token, tokenDeathTime] = generateResetPasswordToken_1.generateToken(user.rememberMe);
+            const [token, tokenDeathTime] = generateToken_1.generateToken(user.rememberMe);
             try {
                 const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime }, { new: true }).exec();
                 if (!newUser)

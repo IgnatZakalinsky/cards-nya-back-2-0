@@ -2,8 +2,8 @@ import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import {DEV_VERSION} from "../../../cnb-1-main/config";
 import {sendMail} from "../a-3-helpers/h-3-gmail/gmail";
-import {generateResetPasswordToken} from "../a-3-helpers/h-2-more/generateResetPasswordToken";
 import {emailValidator} from "../a-3-helpers/h-2-more/validators";
+import {generateResetPasswordToken} from "../a-3-helpers/h-2-more/generateToken";
 
 export const passwordRecovery = async (req: Request, res: Response) => {
     if (!emailValidator(req.body.email)) res.status(400)

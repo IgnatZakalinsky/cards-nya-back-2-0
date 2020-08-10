@@ -14,7 +14,7 @@ export const generateResetPasswordToken = async (userId: mongoose.Types.ObjectId
 
     await User.findByIdAndUpdate(
         userId,
-        {resetPasswordToken, resetPasswordTokenDeathTime: new Date().getTime() + (1000 * 60 * 10)}, // 10 min
+        {resetPasswordToken, resetPasswordTokenDeathTime: Date.now() + (1000 * 60 * 10)}, // 10 min
         {new: true}
     ).exec();
 
@@ -24,8 +24,8 @@ export const generateResetPasswordToken = async (userId: mongoose.Types.ObjectId
 export const generateToken = (rememberMe: boolean): [string, number] => {
     const token = uuidv1();
     const tokenDeathTime = rememberMe
-        ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 days
-        : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
+        ? Date.now() + (1000 * 60 * 60 * 24 * 7) // 7 days
+        : Date.now() + (1000 * 60 * 60 * 3); // 3 hours
 
     return [token, tokenDeathTime];
 };

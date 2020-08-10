@@ -16,23 +16,23 @@ exports.logIn = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../../../cnb-1-main/config");
-const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-more/generateResetPasswordToken");
+const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const getMe_1 = require("./getMe");
 exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password, rememberMe } = req.body;
     if (validators_1.validateAuth(req, res, "logIn")) {
         try {
-            const user = yield user_1.default.findOne({ email: req.body.email }).exec();
+            const user = yield user_1.default.findOne({ email }).exec();
             if (!user)
-                res.status(400).json({ error: "user not found /ᐠ-ꞈ-ᐟ\\", email: req.body.email, in: "logIn" });
-            else if (!(yield bcrypt_1.default.compare(req.body.password, user.password)))
+                res.status(400).json({ error: "user not found /ᐠ-ꞈ-ᐟ\\", email, in: "logIn" });
+            else if (!(yield bcrypt_1.default.compare(password, user.password)))
                 res.status(400)
-                    .json({ error: "not correct password /ᐠ-ꞈ-ᐟ\\", password: req.body.password, in: "logIn" });
+                    .json({ error: "not correct password /ᐠ-ꞈ-ᐟ\\", password, in: "logIn" });
             else {
-                const [token, tokenDeathTime] = generateResetPasswordToken_1.generateToken(!!req.body.rememberMe);
-                console.log("email: ", user.email, ", token: ", token);
+                const [token, tokenDeathTime] = generateToken_1.generateToken(!!rememberMe);
                 try {
-                    const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!req.body.rememberMe }, { new: true }).exec();
+                    const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!rememberMe }, { new: true }).exec();
                     if (!newUser)
                         res.status(500)
                             .json({ error: "not updated? /ᐠ｡ꞈ｡ᐟ\\", in: "logIn/User.findByIdAndUpdate" });

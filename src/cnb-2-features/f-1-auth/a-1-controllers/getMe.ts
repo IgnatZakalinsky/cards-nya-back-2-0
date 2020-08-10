@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {IUser} from "../a-2-models/user";
-import {cookieSettings} from "../../../cnb-1-main/app";
+import {resCookie} from "../../../cnb-1-main/cookie";
 
 export const getMe = async (req: Request, res: Response, user: IUser) => {
     const body: any = {...user};
@@ -9,8 +9,5 @@ export const getMe = async (req: Request, res: Response, user: IUser) => {
     delete body.resetPasswordToken;
     delete body.resetPasswordTokenDeathTime;
 
-    res.cookie("token", user.token, {
-        ...cookieSettings,
-        expires: new Date(user.tokenDeathTime || 0),
-    }).status(200).json({...body});
+    resCookie(res, user).status(200).json({...body});
 };

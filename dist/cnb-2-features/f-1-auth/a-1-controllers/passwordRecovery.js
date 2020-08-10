@@ -16,8 +16,8 @@ exports.passwordRecovery = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const config_1 = require("../../../cnb-1-main/config");
 const gmail_1 = require("../a-3-helpers/h-3-gmail/gmail");
-const generateResetPasswordToken_1 = require("../a-3-helpers/h-2-more/generateResetPasswordToken");
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
+const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
 exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validators_1.emailValidator(req.body.email))
         res.status(400)
@@ -29,7 +29,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 res.status(404).json({ error: 'Email address not found', in: 'passwordRecovery' });
             else {
                 try {
-                    const resetPasswordToken = yield generateResetPasswordToken_1.generateResetPasswordToken(user._id);
+                    const resetPasswordToken = yield generateToken_1.generateResetPasswordToken(user._id);
                     const html = (req.body.html1 ||
                         '<div style="color: lime; background-color: black; padding: 10px">' +
                             'password recovery link: ' +

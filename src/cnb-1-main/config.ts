@@ -7,3 +7,8 @@ export const MongoDBUris = `mongodb+srv://${USER_NAME}:${PASSWORD}@${MONGO_DB_UR
 export const DEV_VERSION = true;
 
 export const VERSION_2_0 = "/2.0";
+
+export const GMAIL_USER = "";
+export const GMAIL_PASS = "";
+
+export const PORT = 7542;

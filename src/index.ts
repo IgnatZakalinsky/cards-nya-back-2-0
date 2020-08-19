@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import {MongoDBUris} from "./cnb-1-main/config";
+import {MongoDBUris, PORT} from "./cnb-1-main/config";
 import {appUse} from "./cnb-1-main/app";
 import {routes} from "./cnb-1-main/routes";
 // yarn upgrade
@@ -19,8 +19,10 @@ mongoose.connect(MongoDBUris, {
     .then(() => {
         console.log("Nya-MongoDB connected successfully");
 
-        app.listen(process.env.PORT, () => {
-            console.log("Cards-Nya-back 2.0 listening on port: " + process.env.PORT);
+        const port = process.env.PORT || PORT;
+
+        app.listen(port, () => {
+            console.log("Cards-Nya-back 2.0 listening on port: " + port);
         });
     })
     .catch(e => console.log("Nya-MongoDB connection error: ", {...e}));

@@ -18,8 +18,8 @@ const config_1 = require("../../../../cnb-1-main/config");
 const transporter = nodemailer_1.default.createTransport({
     service: "gmail",
     auth: {
-        user: process.env.GMAIL_USER || "",
-        pass: process.env.GMAIL_PASS || ""
+        user: process.env.GMAIL_USER || config_1.GMAIL_USER,
+        pass: process.env.GMAIL_PASS || config_1.GMAIL_PASS
     }
 });
 exports.sendMail = (to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {

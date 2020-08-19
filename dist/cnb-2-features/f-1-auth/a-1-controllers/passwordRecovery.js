@@ -63,7 +63,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                         error: "some error: " + e.message,
                         info: "Back doesn't know what the error is... ^._.^",
                         errorObject: config_1.DEV_VERSION && e,
-                        in: "passwordRecovery/sendMail"
+                        in: "passwordRecovery/sendMail",
                     });
                 }
             }
@@ -73,7 +73,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 error: "some error: " + e.message,
                 info: "Back doesn't know what the error is... ^._.^",
                 errorObject: config_1.DEV_VERSION && e,
-                in: "passwordRecovery/User.findOne"
+                in: "passwordRecovery/User.findOne",
             });
         }
 });

@@ -65,7 +65,7 @@ export const passwordRecovery = async (req: Request, res: Response) => {
                     error: "some error: " + e.message,
                     info: "Back doesn't know what the error is... ^._.^",
                     errorObject: DEV_VERSION && e,
-                    in: "passwordRecovery/sendMail"
+                    in: "passwordRecovery/sendMail",
                 });
             }
         }
@@ -74,7 +74,7 @@ export const passwordRecovery = async (req: Request, res: Response) => {
             error: "some error: " + e.message,
             info: "Back doesn't know what the error is... ^._.^",
             errorObject: DEV_VERSION && e,
-            in: "passwordRecovery/User.findOne"
+            in: "passwordRecovery/User.findOne",
         });
     }
 };

@@ -10,7 +10,7 @@ const createUser_1 = require("./a-1-controllers/createUser");
 const getMe_1 = require("./a-1-controllers/getMe");
 const findUserByToken_1 = require("./a-3-helpers/h-2-more/findUserByToken");
 const passwordRecovery_1 = require("./a-1-controllers/passwordRecovery");
-// import {setNewPassword} from "./a-1-controllers/setNewPassword";
+const setNewPassword_1 = require("./a-1-controllers/setNewPassword");
 const updateUser_1 = require("./a-1-controllers/updateUser");
 const logOut_1 = require("./a-1-controllers/logOut");
 const auth = express_1.default.Router();
@@ -21,6 +21,6 @@ auth.post("/me", findUserByToken_1.findUserByToken(getMe_1.getMe, "getMe"));
 auth.put("/me", findUserByToken_1.findUserByToken(updateUser_1.updateUser, "updateUser"));
 auth.delete("/me", findUserByToken_1.findUserByToken(logOut_1.logOut, "logOut"));
 auth.post("/forgot", passwordRecovery_1.passwordRecovery);
-// auth.post("/set-new-password", setNewPassword);
+auth.post("/set-new-password", setNewPassword_1.setNewPassword);
 exports.default = auth;
 //# sourceMappingURL=index.js.map

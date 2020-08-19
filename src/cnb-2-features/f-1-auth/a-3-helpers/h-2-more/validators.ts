@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 
-const emailRegExp = /^[\w][\w-.]*@[\w-]+\.[a-z]{2,7}$/i;
+export const emailRegExp = /^[\w][\w-.]*@[\w-]+\.[a-z]{2,7}$/i;
 
 export const emailValidator = (email: string): boolean => emailRegExp.test(email); // true - valid
 

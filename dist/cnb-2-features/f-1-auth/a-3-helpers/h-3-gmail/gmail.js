@@ -16,24 +16,24 @@ exports.sendMail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const config_1 = require("../../../../cnb-1-main/config");
 const transporter = nodemailer_1.default.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-        user: process.env.GMAIL_USER || '',
-        pass: process.env.GMAIL_PASS || ''
+        user: process.env.GMAIL_USER || "",
+        pass: process.env.GMAIL_PASS || ""
     }
 });
 exports.sendMail = (to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
     // for accept
     // https://myaccount.google.com/lesssecureapps
     const info = yield transporter.sendMail({
-        from: 'cards-nya',
+        from: "cards-nya",
         to,
         subject,
         text,
         html: text ? undefined : html,
     });
     if (config_1.DEV_VERSION)
-        console.log('gmail info: ', info);
+        console.log("gmail info: ", info);
     return info;
 });
 //# sourceMappingURL=gmail.js.map

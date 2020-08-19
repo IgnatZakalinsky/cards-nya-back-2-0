@@ -23,11 +23,11 @@ const transporter = nodemailer_1.default.createTransport({
         pass: process.env.GMAIL_PASS || config_1.GMAIL_PASS
     }
 });
-exports.sendMail = (to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
+exports.sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
     // for accept
     // https://myaccount.google.com/lesssecureapps
     const info = yield transporter.sendMail({
-        from: "cards-nya",
+        from,
         to,
         subject,
         text,

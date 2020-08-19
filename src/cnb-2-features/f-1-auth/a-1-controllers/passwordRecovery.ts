@@ -6,7 +6,7 @@ import {emailRegExp, emailValidator} from "../a-3-helpers/h-2-more/validators";
 import {generateResetPasswordToken} from "../a-3-helpers/h-2-more/generateToken";
 
 export const passwordRecovery = async (req: Request, res: Response) => {
-    const {email, html1, html2, message} = req.body;
+    const {email, html1, html2, message, from} = req.body;
 
     if (!emailValidator(email)) res.status(400)
         .json({error: "Email address not valid /ᐠ-ꞈ-ᐟ\\", email, emailRegExp, in: "passwordRecovery"});
@@ -21,10 +21,13 @@ export const passwordRecovery = async (req: Request, res: Response) => {
             try {
                 const resetPasswordToken = await generateResetPasswordToken(user._id);
 
-                let html: string;
+                let html: string = message;
 
                 if (message && message.includes("$token$")) {
-                    html = message.replace("$token$", resetPasswordToken);
+                    do {
+                        html = html.replace("$token$", resetPasswordToken);
+                    } while (html.includes("$token$"));
+
                 } else {
                     html = (
                         html1 ||
@@ -41,7 +44,10 @@ export const passwordRecovery = async (req: Request, res: Response) => {
                     );
                 }
 
+                const fromFinal = from || "cards-nya <neko.nyakus.cafe@gmail.com>";
+
                 const answer = await sendMail(
+                    fromFinal,
                     email,
                     "password recovery",
                     html

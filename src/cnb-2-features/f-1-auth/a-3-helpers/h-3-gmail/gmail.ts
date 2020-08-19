@@ -10,12 +10,12 @@ const transporter = nodeMailer.createTransport({
     }
 });
 
-export const sendMail = async (to: string, subject: string, html?: string, text?: string) => {
+export const sendMail = async (from: string, to: string, subject: string, html?: string, text?: string) => {
 
     // for accept
     // https://myaccount.google.com/lesssecureapps
     const info = await transporter.sendMail({
-        from: "cards-nya",
+        from,
         to,
         subject,
         text,

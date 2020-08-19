@@ -4,6 +4,7 @@ import {DEV_VERSION, GMAIL_PASS, GMAIL_USER} from "../../../../cnb-1-main/config
 const transporter = nodeMailer.createTransport({
     service: "gmail",
     auth: {
+        type: "login",
         user: process.env.GMAIL_USER || GMAIL_USER,
         pass: process.env.GMAIL_PASS || GMAIL_PASS
     }

@@ -19,45 +19,59 @@ const gmail_1 = require("../a-3-helpers/h-3-gmail/gmail");
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
 exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!validators_1.emailValidator(req.body.email))
+    const { email, html1, html2, message } = req.body;
+    if (!validators_1.emailValidator(email))
         res.status(400)
-            .json({ error: 'Email address not valid', in: 'passwordRecovery' });
+            .json({ error: "Email address not valid /ᐠ-ꞈ-ᐟ\\", email, emailRegExp: validators_1.emailRegExp, in: "passwordRecovery" });
     else
         try {
-            const user = yield user_1.default.findOne({ email: req.body.email }).exec();
+            const user = yield user_1.default.findOne({ email }).exec();
             if (!user)
-                res.status(404).json({ error: 'Email address not found', in: 'passwordRecovery' });
+                res.status(404)
+                    .json({ error: "Email address not found /ᐠ-ꞈ-ᐟ\\", email, in: "passwordRecovery" });
             else {
                 try {
                     const resetPasswordToken = yield generateToken_1.generateResetPasswordToken(user._id);
-                    const html = (req.body.html1 ||
-                        '<div style="color: lime; background-color: black; padding: 10px">' +
-                            'password recovery link: ' +
-                            `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
-                            `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
-                            '</a>' +
-                            '<div>resetPasswordToken: ') +
-                        resetPasswordToken +
-                        (req.body.html2 ||
+                    let html;
+                    if (message && message.includes("$token$")) {
+                        html = message.replace("$token$", resetPasswordToken);
+                    }
+                    else {
+                        html = (html1 ||
+                            '<div style="color: lime; background-color: black; padding: 10px">' +
+                                'password recovery link: ' +
+                                `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
+                                `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
+                                '</a>' +
+                                '<div>resetPasswordToken: ') + resetPasswordToken + (html2 ||
                             '</div>' +
                                 '</div>');
-                    const info = yield gmail_1.sendMail(user.email, 'password recovery', html);
+                    }
+                    const answer = yield gmail_1.sendMail(email, "password recovery", html);
                     res.status(200).json({
-                        status: "sent",
-                        success: Boolean(info.accepted && info.accepted.length > 0),
-                        info: config_1.DEV_VERSION && info,
-                        html: config_1.DEV_VERSION && !user.isAdmin && html,
+                        info: "sent —ฅ/ᐠ.̫ .ᐟ\\ฅ—",
+                        success: Boolean(answer.accepted && answer.accepted.length > 0),
+                        answer: config_1.DEV_VERSION && answer,
+                        html: config_1.DEV_VERSION && html,
                     });
                 }
                 catch (e) {
-                    res.status(500)
-                        .json({ error: 'some error', errorObject: config_1.DEV_VERSION && e, in: 'passwordRecovery/sendMail' });
+                    res.status(500).json({
+                        error: "some error: " + e.message,
+                        info: "Back doesn't know what the error is... ^._.^",
+                        errorObject: config_1.DEV_VERSION && e,
+                        in: "passwordRecovery/sendMail"
+                    });
                 }
             }
         }
         catch (e) {
-            res.status(500)
-                .json({ error: 'some error', errorObject: config_1.DEV_VERSION && e, in: 'passwordRecovery/User.findOne' });
+            res.status(500).json({
+                error: "some error: " + e.message,
+                info: "Back doesn't know what the error is... ^._.^",
+                errorObject: config_1.DEV_VERSION && e,
+                in: "passwordRecovery/User.findOne"
+            });
         }
 });
 //# sourceMappingURL=passwordRecovery.js.map

@@ -1,7 +1,7 @@
 import {Response} from "express";
 import {IUser} from "../../a-2-models/user";
 import {DEV_VERSION} from "../../../../cnb-1-main/config";
-import {cookieSettings} from "../../../../cnb-1-main/app";
+import {cookieSettings} from "../../../../cnb-1-main/cookie";
 
 export const status500 = (res: Response, e: any, user: IUser, inTry: string) => {
     const error = {

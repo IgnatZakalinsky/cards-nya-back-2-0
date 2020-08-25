@@ -19,13 +19,27 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
 
     // cardsPack_idF && await Card.create({
     //     cardsPack_id: cardsPack_idF,
-    //     question: 'no question',
-    //     answer: 'no answer',
-    //     grade: Math.random() * 5,
-    //     shots: 1,
+    //     user_id: user._id,
     //
-    //     type: 'card',
-    //     rating: 0
+    //     answer: "seed answer",
+    //     question: "seed question",
+    //     grade: 0,
+    //     shots: 0,
+    //
+    //     questionImg: "",
+    //     answerImg: "",
+    //     answerVideo: "",
+    //     questionVideo: "",
+    //
+    //     comments: "",
+    //     type: "pack",
+    //     rating: 0,
+    //     more_id: user._id,
+    //
+    //     created: new Date(),
+    //     updated: new Date(),
+    //
+    //     _doc: {}, // crutch
     // }); // seed
 
     CardsPack.findById(cardsPack_idF)

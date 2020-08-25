@@ -14,29 +14,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addCard = void 0;
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
-const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 const card_1 = __importDefault(require("../../c-2-models/card"));
+const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
+const cookie_1 = require("../../../../cnb-1-main/cookie");
 exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { card } = req.body;
-    const cardsPack_idF = (card && card.cardsPack_id) || '';
+    const cardsPack_idF = (card && card.cardsPack_id) || "";
     if (!card)
-        findUserByToken_1.status400(res, `No cardsPack in body!`, user, 'addCard');
+        errorStatuses_1.status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
+    else if (!cardsPack_idF)
+        errorStatuses_1.status400(res, "No cardsPack_id in card! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
     else
         cardsPack_1.default.findById(cardsPack_idF)
             .exec()
             .then((oldCardsPack) => {
             if (!oldCardsPack)
-                findUserByToken_1.status400(res, `CardsPack id not valid`, user, 'addCard');
+                errorStatuses_1.status400(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
             else if (!oldCardsPack.user_id.equals(user._id))
-                findUserByToken_1.status400(res, `not your CardsPack`, user, 'addCard');
+                errorStatuses_1.status400(res, "not your CardsPack! /ᐠ｡ꞈ｡ᐟ\\", user, "addCard", { body: req.body });
             else {
-                const answerF = card.answer || 'no answer';
-                const questionF = card.question || 'no question';
-                const typeF = card.type || 'card';
+                const answerF = card.answer || "no answer";
+                const questionF = card.question || "no question";
+                const typeF = card.type || "card";
                 const gradeF = isFinite(card.grade) ? +card.grade : 0;
                 const shotsF = isFinite(card.shots) ? +card.shots : 0;
                 if (gradeF > 5 || gradeF < 0)
-                    findUserByToken_1.status400(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5...`, user, 'addCard');
+                    errorStatuses_1.status400(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCard");
                 else
                     card_1.default.create({
                         cardsPack_id: cardsPack_idF,
@@ -49,8 +52,13 @@ exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                         answerImg: card.answerImg,
                         answerVideo: card.answerVideo,
                         questionVideo: card.questionVideo,
+                        comments: "",
                         type: typeF,
-                        rating: 0
+                        rating: 0,
+                        more_id: user._id,
+                        created: new Date(),
+                        updated: new Date(),
+                        _doc: {},
                     })
                         .then((newCard) => {
                         card_1.default.count({ cardsPack_id: cardsPack_idF })
@@ -60,22 +68,21 @@ exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                                 .exec()
                                 .then((updatedCardsPack) => {
                                 if (!updatedCardsPack)
-                                    findUserByToken_1.status400(res, `never`, user, 'addCard');
+                                    errorStatuses_1.status400(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "addCard");
                                 else
-                                    res.status(201).json({
+                                    cookie_1.resCookie(res, user).status(201).json({
                                         newCard,
-                                        success: true,
                                         token: user.token,
                                         tokenDeathTime: user.tokenDeathTime
                                     });
                             })
-                                .catch(e => findUserByToken_1.status500(res, e, user, 'addCard/CardsPack.findByIdAndUpdate'));
+                                .catch(e => errorStatuses_1.status500(res, e, user, "addCard/CardsPack.findByIdAndUpdate"));
                         })
-                            .catch(e => findUserByToken_1.status500(res, e, user, 'addCard/Card.count'));
+                            .catch(e => errorStatuses_1.status500(res, e, user, "addCard/Card.count"));
                     })
-                        .catch(e => findUserByToken_1.status500(res, e, user, 'addCard/Card.create'));
+                        .catch(e => errorStatuses_1.status500(res, e, user, "addCard/Card.create"));
             }
         })
-            .catch(e => findUserByToken_1.status500(res, e, user, 'addCard/CardsPack.findById'));
+            .catch(e => errorStatuses_1.status500(res, e, user, "addCard/CardsPack.findById"));
 });
 //# sourceMappingURL=addCard.js.map

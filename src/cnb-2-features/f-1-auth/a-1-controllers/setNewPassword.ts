@@ -11,13 +11,13 @@ export const setNewPassword = async (req: Request, res: Response) => {
         res.status(400).json({
             error: "Password not valid! must be more than 7 characters /ᐠ-ꞈ-ᐟ\\",
             body: DEV_VERSION && req.body,
-            in: "setNewPassword"
+            in: "setNewPassword",
         });
     else if (!resetPasswordToken)
         res.status(400).json({
             error: "no resetPasswordToken, Check your request! /ᐠ-ꞈ-ᐟ\\",
             body: DEV_VERSION && req.body,
-            in: "setNewPassword"
+            in: "setNewPassword",
         });
 
     else try {

@@ -13,8 +13,9 @@ exports.status500 = (res, e, user, inTry) => {
     console.log("error-nya-500: ", error);
     res.cookie("token", user.token, Object.assign(Object.assign({}, cookie_1.cookieSettings), { expires: new Date(user.tokenDeathTime || 0) })).status(500).json(error);
 };
-exports.status400 = (res, e, user, inTry) => {
+exports.status400 = (res, e, user, inTry, more) => {
     const error = {
+        more,
         error: e,
         in: inTry,
         info: "Check your request! /ᐠ-ꞈ-ᐟ\\",

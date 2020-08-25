@@ -20,7 +20,7 @@ const cookie_1 = require("../../../../cnb-1-main/cookie");
 exports.addCardsPack = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { cardsPack } = req.body;
     if (!cardsPack)
-        errorStatuses_1.status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCardsPack");
+        errorStatuses_1.status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCardsPack", { body: req.body });
     else {
         const nameF = cardsPack.name || "no Name";
         const pathF = cardsPack.path || "/def";
@@ -29,7 +29,7 @@ exports.addCardsPack = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
         const shotsF = isFinite(cardsPack.shots) ? +cardsPack.shots : 0;
         // add private
         if (gradeF > 5 || gradeF < 0)
-            errorStatuses_1.status400(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCardsPack");
+            errorStatuses_1.status400(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCardsPack", { body: req.body });
         else
             cardsPack_1.default.create({
                 user_id: user._id,

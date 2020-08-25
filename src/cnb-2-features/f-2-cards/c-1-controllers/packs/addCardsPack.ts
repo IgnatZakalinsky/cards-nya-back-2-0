@@ -7,7 +7,8 @@ import {resCookie} from "../../../../cnb-1-main/cookie";
 export const addCardsPack = async (req: Request, res: Response, user: IUser) => {
     const {cardsPack} = req.body;
 
-    if (!cardsPack) status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCardsPack");
+    if (!cardsPack)
+        status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCardsPack", {body: req.body});
 
     else {
         const nameF = cardsPack.name || "no Name";
@@ -18,7 +19,8 @@ export const addCardsPack = async (req: Request, res: Response, user: IUser) => 
         // add private
 
         if (gradeF > 5 || gradeF < 0) status400(res,
-            `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCardsPack");
+            `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`,
+            user, "addCardsPack", {body: req.body});
 
         else CardsPack.create({
             user_id: user._id,

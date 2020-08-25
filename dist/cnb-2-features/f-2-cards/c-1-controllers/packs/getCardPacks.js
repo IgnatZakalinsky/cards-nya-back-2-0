@@ -57,7 +57,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
             .sort({ cardsCount: -1 }).exec() // поиск колоды с максимальным количеством карточек
             .then((packMax) => {
             const maxF = packMax ? packMax.cardsCount : minF;
-            const sortName = sortPacksF && sortPacksF.length > 2 ? sortPacksF.slice(1) : "";
+            const sortName = (sortPacksF && sortPacksF.length > 2) ? sortPacksF.slice(1) : "";
             const direction = sortName ? (sortPacksF[0] === "0" ? -1 : 1) : undefined;
             const sortO = sortName ? { [sortName]: direction } : {};
             const findBase = {

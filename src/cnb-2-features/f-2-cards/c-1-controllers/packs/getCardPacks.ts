@@ -54,7 +54,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                 .then((packMax: ICardsPack | null) => {
                     const maxF = packMax ? packMax.cardsCount : minF;
 
-                    const sortName: string | undefined = sortPacksF && sortPacksF.length > 2 ? sortPacksF.slice(1) : "";
+                    const sortName: string = (sortPacksF && sortPacksF.length > 2) ? sortPacksF.slice(1) : "";
                     const direction = sortName ? (sortPacksF[0] === "0" ? -1 : 1) : undefined;
                     const sortO = sortName ? {[sortName]: direction} : {};
 

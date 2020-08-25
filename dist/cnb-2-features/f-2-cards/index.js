@@ -9,7 +9,7 @@ const findUserByToken_1 = require("../f-1-auth/a-3-helpers/h-2-more/findUserByTo
 const addCardsPack_1 = require("./c-1-controllers/packs/addCardsPack");
 const deleteCardsPack_1 = require("./c-1-controllers/packs/deleteCardsPack");
 const updateCardsPack_1 = require("./c-1-controllers/packs/updateCardsPack");
-// import {getCards} from "./c-1-controllers/cards/getCards";
+const getCards_1 = require("./c-1-controllers/cards/getCards");
 // import {addCard} from "./c-1-controllers/cards/addCard";
 // import {deleteCard} from "./c-1-controllers/cards/deleteCard";
 // import {updateCard} from "./c-1-controllers/cards/updateCard";
@@ -19,8 +19,7 @@ cards.get("/pack", findUserByToken_1.findUserByToken(getCardPacks_1.getCardPacks
 cards.post("/pack", findUserByToken_1.findUserByToken(addCardsPack_1.addCardsPack, "addCardsPack"));
 cards.put("/pack", findUserByToken_1.findUserByToken(updateCardsPack_1.updateCardsPack, "updateCardsPack"));
 cards.delete("/pack", findUserByToken_1.findUserByToken(deleteCardsPack_1.deleteCardsPack, "deleteCardsPack"));
-//
-// cards.get('/card', findUserByToken(getCards, 'getCards', true));
+cards.get("/card", findUserByToken_1.findUserByToken(getCards_1.getCards, "getCards"));
 // cards.post('/card', findUserByToken(addCard, 'addCard'));
 // cards.put('/card', findUserByToken(updateCard, 'updateCard'));
 // cards.delete('/card', findUserByToken(deleteCard, 'deleteCard', true));

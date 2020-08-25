@@ -72,9 +72,9 @@ const Card = new mongoose_1.Schema({
     }
 }, {
     timestamps: {
-        createdAt: 'created',
-        updatedAt: 'updated',
+        createdAt: "created",
+        updatedAt: "updated",
     },
 });
-exports.default = mongoose_1.default.model('cards-nya', Card);
+exports.default = mongoose_1.default.model("cards-nya", Card);
 //# sourceMappingURL=card.js.map

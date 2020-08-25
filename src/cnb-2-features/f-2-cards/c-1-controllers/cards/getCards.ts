@@ -1,19 +1,21 @@
 import {Request, Response} from "express";
 import {IUser} from "../../../f-1-auth/a-2-models/user";
-import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import Card, {ICard} from "../../c-2-models/card";
 import CardsPack, {ICardsPack} from "../../c-2-models/cardsPack";
 import Grade from "../../c-2-models/grade";
+import {status400, status500} from "../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
+import {resCookie} from "../../../../cnb-1-main/cookie";
 
 export const getCards = async (req: Request, res: Response, user: IUser) => {
-    const {page, pageCount, sortCards, cardAnswer, cardQuestion, min, max, cardsPack_id} = req.query;
+    const {page, pageCount, sortCards, cardAnswer, cardQuestion, min, max, cardsPack_id, type} = req.query;
 
-    let pageF = +page || 1;
-    const pageCountF = +pageCount || 4;
-    const sortCardsF: string = sortCards as string | undefined || ''; // '0grade'
-    const cardAnswerF: string = cardAnswer as string | undefined || '';
-    const cardQuestionF: string = cardQuestion as string | undefined || '';
-    const cardsPack_idF: string = cardsPack_id as string | undefined || '';
+    let pageF = page && +page || 1;
+    const pageCountF = pageCount && +pageCount || 4;
+    const sortCardsF: string = sortCards as string | undefined || ""; // '0grade'
+    const cardAnswerF: string = cardAnswer as string | undefined || "";
+    const cardQuestionF: string = cardQuestion as string | undefined || "";
+    const cardsPack_idF: string = cardsPack_id as string | undefined || "";
+    const typeF = type as string | undefined || "pack";
 
     // cardsPack_idF && await Card.create({
     //     cardsPack_id: cardsPack_idF,
@@ -29,80 +31,86 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
     CardsPack.findById(cardsPack_idF)
         .exec()
         .then((oldCardsPack: ICardsPack | null) => {
-            if (!oldCardsPack) status400(res, `CardsPack id not valid`, user, 'getCards');
+            if (!oldCardsPack)
+                status400(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "getCards", {query: req.query});
 
-            else Card.findOne({cardsPack_id: cardsPack_idF})
-                .sort({grade: 1})
+            else Card.find({cardsPack_id: cardsPack_idF})
                 .exec()
-                .then((packMin: ICard | null) => {
-                    const minF = packMin ? packMin.grade : 0;
+                .then((allCards: ICard[]) => {
 
-                    Card.findOne({cardsPack_id: cardsPack_idF})
-                        .sort({grade: -1}).exec()
-                        .then((packMax: ICard | null) => {
-                            const maxF = packMax ? packMax.grade : minF;
+                    Grade.find({cardsPack_id: cardsPack_idF, user_id: user._id})
+                        .lean()
+                        .exec()
+                        .then(grades => {
+                            let minF = 0;
+                            let maxF = 6;
 
-                            const sortName: any = sortCardsF && sortCardsF.length > 2 ? sortCardsF.slice(1) : undefined;
-                            const direction = sortName ? (sortCardsF[0] === '0' ? -1 : 1) : undefined;
+                            const cardsF = allCards.map(c => {
+                                const grade = grades.find(g => g.card_id.equals(c._id));
 
-                            Card.find(
-                                {
-                                    cardsPack_id: cardsPack_idF,
-                                    question: new RegExp(cardQuestionF as string),
-                                    answer: new RegExp(cardAnswerF as string),
-                                    grade: {$gte: +min || minF, $lte: +max || maxF}
+                                if (!grade) return c;
+                                else {
+                                    if (minF > grade.grade) minF = grade.grade;
+                                    if (maxF < grade.grade) maxF = grade.grade;
+
+                                    return {...c, grade: grade.grade, shots: grade.shots};
                                 }
-                            )
-                                .sort({[sortName]: direction, updated: -1})
-                                .skip(pageCountF * (pageF - 1))
-                                .limit(pageCountF)
+                            });
+
+                            const sortName: string = (sortCardsF && sortCardsF.length > 2) ? sortCardsF.slice(1) : "";
+                            const direction = sortName ? (sortCardsF[0] === "0" ? -1 : 1) : undefined;
+                            const sortO = sortName ? {[sortName]: direction} : {};
+
+                            const findO = {
+                                cardsPack_id: cardsPack_idF,
+                                question: new RegExp(cardQuestionF, "gi"),
+                                answer: new RegExp(cardAnswerF, "gi"),
+                                // grade: {$gte: min && +min || minF, $lte: max && +max || maxF}
+                            };
+
+                            // Card.count({...findO})
+                            //     .exec()
+                            //     .then(cardsTotalCount => {
+                            //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
+
+                            Card.find({...findO})
+                                .sort({...sortO, updated: -1})
+                                // .skip(pageCountF * (pageF - 1))
+                                // .limit(pageCountF)
                                 .lean()
                                 .exec()
                                 .then(cards => {
 
-                                    Card.count(
-                                        {
-                                            cardsPack_id: cardsPack_idF,
-                                            question: new RegExp(cardQuestionF as string),
-                                            answer: new RegExp(cardAnswerF as string),
-                                            grade: {$gte: +min || minF, $lte: +max || maxF}
-                                        }
-                                    )
-                                        .exec()
-                                        .then(cardsTotalCount => {
-                                            if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
+                                    const cardsF = cards.map(c => {
+                                        const grade = grades.find(g => g.card_id.equals(c._id));
+                                        if (!grade) return c;
+                                        else return {...c, grade: grade.grade, shots: grade.shots};
+                                    }).filter(c => {
+                                        return c.grade >= (min && +min || minF) && c.grade <= (max && +max || maxF);
+                                    });
 
-                                            Grade.find({cardsPack_id: cardsPack_idF, user_id: user._id})
-                                                .lean()
-                                                .exec()
-                                                .then(grades => {
+                                    if (pageCountF * (pageF - 1) > cardsF.length) pageF = 1;
 
-                                                    const cardsF = cards.map(c => {
-                                                        const grade = grades.find(g => g.card_id.equals(c._id));
-                                                        if (!grade) return c;
-                                                        else return {...c, grade: grade.grade, shots: grade.shots}
-                                                    });
+                                    const cardsFF = cardsF.slice(pageCountF * (pageF - 1), pageCountF * pageF);
 
-                                                    res.status(200)
-                                                        .json({
-                                                            cards: cardsF,
-                                                            page: pageF, pageCount: pageCountF, cardsTotalCount,
-                                                            minGrade: minF, maxGrade: maxF,
-                                                            token: user.token,
-                                                            tokenDeathTime: user.tokenDeathTime,
-                                                        })
-                                                })
-                                                .catch(e => status500(res, e, user, 'getCards/Grade.find'));
-                                        })
-                                        .catch(e => status500(res, e, user, 'getCards/Card.count'));
+                                    resCookie(res, user).status(200)
+                                        .json({
+                                            cards: cardsFF,
+                                            page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
+                                            minGrade: minF, maxGrade: maxF,
+                                            token: user.token,
+                                            tokenDeathTime: user.tokenDeathTime,
+                                        });
                                 })
-                                .catch(e => status500(res, e, user, 'getCards/Card.find'));
+                                .catch(e => status500(res, e, user, "getCards/Card.find"));
+                            // })
+                            // .catch(e => status500(res, e, user, "getCards/Card.count"));
                         })
-                        .catch(e => status500(res, e, user, 'getCards/Card.findOne/max'));
+                        .catch(e => status500(res, e, user, "getCards/Grade.find"));
                 })
-                .catch(e => status500(res, e, user, 'getCards/Card.findOne/min'));
+                .catch(e => status500(res, e, user, "getCards/Card.find/all"));
         })
-        .catch(e => status500(res, e, user, 'getCards/CardsPack.findById'));
+        .catch(e => status500(res, e, user, "getCards/CardsPack.findById"));
 };
 
 // Имя Описание

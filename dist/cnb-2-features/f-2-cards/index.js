@@ -11,7 +11,7 @@ const deleteCardsPack_1 = require("./c-1-controllers/packs/deleteCardsPack");
 const updateCardsPack_1 = require("./c-1-controllers/packs/updateCardsPack");
 const getCards_1 = require("./c-1-controllers/cards/getCards");
 const addCard_1 = require("./c-1-controllers/cards/addCard");
-// import {deleteCard} from "./c-1-controllers/cards/deleteCard";
+const deleteCard_1 = require("./c-1-controllers/cards/deleteCard");
 // import {updateCard} from "./c-1-controllers/cards/updateCard";
 // import {updateGrade} from "./c-1-controllers/grade/updateGrade";
 const cards = express_1.default.Router();
@@ -22,7 +22,7 @@ cards.delete("/pack", findUserByToken_1.findUserByToken(deleteCardsPack_1.delete
 cards.get("/card", findUserByToken_1.findUserByToken(getCards_1.getCards, "getCards"));
 cards.post("/card", findUserByToken_1.findUserByToken(addCard_1.addCard, "addCard"));
 // cards.put('/card', findUserByToken(updateCard, 'updateCard'));
-// cards.delete('/card', findUserByToken(deleteCard, 'deleteCard', true));
+cards.delete("/card", findUserByToken_1.findUserByToken(deleteCard_1.deleteCard, "deleteCard"));
 //
 // cards.put('/grade', findUserByToken(updateGrade, 'updateGrade'));
 exports.default = cards;

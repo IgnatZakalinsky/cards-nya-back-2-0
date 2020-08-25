@@ -6,7 +6,7 @@ import {deleteCardsPack} from "./c-1-controllers/packs/deleteCardsPack";
 import {updateCardsPack} from "./c-1-controllers/packs/updateCardsPack";
 import {getCards} from "./c-1-controllers/cards/getCards";
 import {addCard} from "./c-1-controllers/cards/addCard";
-// import {deleteCard} from "./c-1-controllers/cards/deleteCard";
+import {deleteCard} from "./c-1-controllers/cards/deleteCard";
 // import {updateCard} from "./c-1-controllers/cards/updateCard";
 // import {updateGrade} from "./c-1-controllers/grade/updateGrade";
 
@@ -20,7 +20,7 @@ cards.delete("/pack", findUserByToken(deleteCardsPack, "deleteCardsPack"));
 cards.get("/card", findUserByToken(getCards, "getCards"));
 cards.post("/card", findUserByToken(addCard, "addCard"));
 // cards.put('/card', findUserByToken(updateCard, 'updateCard'));
-// cards.delete('/card', findUserByToken(deleteCard, 'deleteCard', true));
+cards.delete("/card", findUserByToken(deleteCard, "deleteCard"));
 //
 // cards.put('/grade', findUserByToken(updateGrade, 'updateGrade'));
 

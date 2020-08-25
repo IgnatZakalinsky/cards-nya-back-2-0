@@ -28,13 +28,25 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
     const user_idO = user_idF ? { user_id: user_idF } : undefined; // options
     // await CardsPack.create({
     //     user_id: user._id,
-    //     name: 'fake2CardsPack',
-    //     path: '/def',
-    //     grade: Math.random() * 5,
-    //     shots: 1,
+    //     user_name: user.name,
+    //     private: false,
     //
-    //     type: 'pack',
-    //     rating: 0
+    //     name: "seed",
+    //     path: "/def",
+    //     grade: 0,
+    //     shots: 0,
+    //
+    //     deckCover: "",
+    //     cardsCount: 0,
+    //
+    //     type: "pack",
+    //     rating: 0,
+    //
+    //     created: new Date(),
+    //     updated: new Date(),
+    //
+    //     more_id: user._id,
+    //     _doc: {}, // crutch
     // }); // seed
     cardsPack_1.default.findOne(user_idO)
         .sort({ cardsCount: 1 }) // поиск колоды с минимальным количеством карточек

@@ -14,15 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCardPacks = void 0;
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
-const findUserByToken_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
+const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
+const cookie_1 = require("../../../../cnb-1-main/cookie");
 exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
-    const { page, pageCount, sortPacks, packName, min, max, user_id } = req.query;
-    let pageF = +page || 1;
-    const pageCountF = +pageCount || 4;
-    const sortPacksF = sortPacks || ''; // '0grade'
-    const packNameF = packName || '';
+    const { page, pageCount, sortPacks, packName, min, max, user_id, type } = req.query;
+    let pageF = page && +page || 1;
+    const pageCountF = pageCount && +pageCount || 4;
+    const sortPacksF = sortPacks || ""; // '0grade'
+    const packNameF = packName || "";
     const user_idF = user_id || undefined;
-    const user_idO = user_idF ? { user_id: user_idF } : undefined;
+    const typeF = type || "pack";
+    // min max
+    const user_idO = user_idF ? { user_id: user_idF } : undefined; // options
     // await CardsPack.create({
     //     user_id: user._id,
     //     name: 'fake2CardsPack',
@@ -34,51 +37,52 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
     //     rating: 0
     // }); // seed
     cardsPack_1.default.findOne(user_idO)
-        .sort({ grade: 1 })
+        .sort({ cardsCount: 1 }) // поиск колоды с минимальным количеством карточек
         .exec()
         .then((packMin) => {
-        const minF = packMin ? packMin.grade : 0;
+        const minF = packMin ? packMin.cardsCount : 0;
         cardsPack_1.default.findOne(user_idO)
-            .sort({ grade: -1 }).exec()
+            .sort({ cardsCount: -1 }).exec() // поиск колоды с максимальным количеством карточек
             .then((packMax) => {
-            const maxF = packMax ? packMax.grade : minF;
-            const sortName = sortPacksF && sortPacksF.length > 2 ? sortPacksF.slice(1) : undefined;
-            const direction = sortName ? (sortPacksF[0] === '0' ? -1 : 1) : undefined;
+            const maxF = packMax ? packMax.cardsCount : minF;
+            const sortName = sortPacksF && sortPacksF.length > 2 ? sortPacksF.slice(1) : "";
+            const direction = sortName ? (sortPacksF[0] === "0" ? -1 : 1) : undefined;
+            const sortO = sortName ? { [sortName]: direction } : {};
             const findBase = {
-                name: new RegExp(packNameF, 'gi'),
-                grade: { $gte: +min || minF, $lte: +max || maxF }
+                name: new RegExp(packNameF, "gi"),
+                cardsCount: { $gte: min && +min || minF, $lte: max && +max || maxF }
             };
             const findPrivate = user_idF && user._id.equals(user_idF) ? {} : { private: false };
             const findByUserId = user_id ? { user_id: user_idF } : {};
             const findO = Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate);
-            cardsPack_1.default.find(findO)
-                .sort({ [sortName]: direction, updated: -1 })
-                .skip(pageCountF * (pageF - 1))
-                .limit(pageCountF)
-                .lean()
+            cardsPack_1.default.count(findO)
                 .exec()
-                .then(cardPacks => {
-                cardsPack_1.default.count(findO)
+                .then(cardPacksTotalCount => {
+                if (pageCountF * (pageF - 1) > cardPacksTotalCount)
+                    pageF = 1;
+                cardsPack_1.default.find(findO)
+                    .sort(Object.assign(Object.assign({}, sortO), { updated: -1 }))
+                    .skip(pageCountF * (pageF - 1))
+                    .limit(pageCountF)
+                    .lean()
                     .exec()
-                    .then(cardPacksTotalCount => {
-                    if (pageCountF * (pageF - 1) > cardPacksTotalCount)
-                        pageF = 1;
-                    res.status(200)
+                    .then(cardPacks => {
+                    cookie_1.resCookie(res, user).status(200)
                         .json({
                         cardPacks,
                         page: pageF, pageCount: pageCountF, cardPacksTotalCount,
-                        minGrade: minF, maxGrade: maxF,
+                        minCardsCount: minF, maxCardsCount: maxF,
                         token: user.token,
                         tokenDeathTime: user.tokenDeathTime,
                     });
                 })
-                    .catch(e => findUserByToken_1.status500(res, e, user, 'getCardPacks/CardsPack.count'));
+                    .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.find"));
             })
-                .catch(e => findUserByToken_1.status500(res, e, user, 'getCardPacks/CardsPack.find'));
+                .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.count"));
         })
-            .catch(e => findUserByToken_1.status500(res, e, user, 'getCardPacks/CardsPack.findOne/max'));
+            .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.findOne/max"));
     })
-        .catch(e => findUserByToken_1.status500(res, e, user, 'getCardPacks/CardsPack.findOne/min'));
+        .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.findOne/min"));
 });
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.

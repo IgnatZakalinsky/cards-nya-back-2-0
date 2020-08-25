@@ -69,9 +69,9 @@ const CardsPack = new mongoose_1.Schema({
     }
 }, {
     timestamps: {
-        createdAt: 'created',
-        updatedAt: 'updated',
+        createdAt: "created",
+        updatedAt: "updated",
     },
 });
-exports.default = mongoose_1.default.model('cards-nya-pack', CardsPack);
+exports.default = mongoose_1.default.model("cards-nya-pack", CardsPack);
 //# sourceMappingURL=cardsPack.js.map

@@ -8,14 +8,14 @@ export interface ICardsPack extends Document {
 
     name: string;
     path: string;
-    grade: number;
-    shots: number;
+    grade: number; // back count
+    shots: number; // back count
 
-    cardsCount: number;
+    cardsCount: number; // back count
     deckCover: string;
 
     type: string;
-    rating: number;
+    rating: number; // hz
     more_id: mongoose.Types.ObjectId;
 
     created: Date;
@@ -78,10 +78,10 @@ const CardsPack: Schema = new Schema(
     },
     {
         timestamps: {
-            createdAt: 'created',
-            updatedAt: 'updated',
+            createdAt: "created",
+            updatedAt: "updated",
         },
     }
 );
 
-export default mongoose.model<ICardsPack>('cards-nya-pack', CardsPack);
+export default mongoose.model<ICardsPack>("cards-nya-pack", CardsPack);

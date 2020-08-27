@@ -16,8 +16,9 @@ export const status500 = (res: Response, e: any, user: IUser, inTry: string) => 
         expires: new Date(user.tokenDeathTime || 0),
     }).status(500).json(error);
 };
-export const status400 = (res: Response, e: string, user: IUser, inTry: string) => {
+export const status400 = (res: Response, e: string, user: IUser, inTry: string, more?: any) => {
     const error = {
+        more,
         error: e,
         in: inTry,
         info: "Check your request! /ᐠ-ꞈ-ᐟ\\",

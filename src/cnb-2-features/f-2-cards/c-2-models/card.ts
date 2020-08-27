@@ -7,8 +7,8 @@ export interface ICard extends Document {
 
     question: string;
     answer: string;
-    grade: number;
-    shots: number;
+    grade: number; // back count
+    shots: number; // back count
 
     questionImg: string;
     answerImg: string;
@@ -18,7 +18,7 @@ export interface ICard extends Document {
     comments: string;
 
     type: string;
-    rating: number;
+    rating: number; // hz
     more_id: mongoose.Types.ObjectId;
 
     created: Date;
@@ -84,10 +84,10 @@ const Card: Schema = new Schema(
     },
     {
         timestamps: {
-            createdAt: 'created',
-            updatedAt: 'updated',
+            createdAt: "created",
+            updatedAt: "updated",
         },
     }
 );
 
-export default mongoose.model<ICard>('cards-nya', Card);
+export default mongoose.model<ICard>("cards-nya", Card);

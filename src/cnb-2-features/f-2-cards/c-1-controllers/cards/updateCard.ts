@@ -32,7 +32,9 @@ export const updateCard = async (req: Request, res: Response, user: IUser) => {
 
                 else {
                     let update: any = {comments: oldCard.comments};
-                    if (!user._id.equals(oldCard.user_id)) update.comments = update.comments + "\n" + card.comments;
+                    if (!user._id.equals(oldCard.user_id))
+                        update.comments = (update.comments ? update.comments + "\n" : "") + card.comments;
+
                     else {
                         update = {
                             question: questionF || oldCard.question,

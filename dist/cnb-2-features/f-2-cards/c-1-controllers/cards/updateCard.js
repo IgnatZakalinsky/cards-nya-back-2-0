@@ -41,7 +41,7 @@ exports.updateCard = (req, res, user) => __awaiter(void 0, void 0, void 0, funct
                 else {
                     let update = { comments: oldCard.comments };
                     if (!user._id.equals(oldCard.user_id))
-                        update.comments = update.comments + "\n" + card.comments;
+                        update.comments = (update.comments ? update.comments + "\n" : "") + card.comments;
                     else {
                         update = {
                             question: questionF || oldCard.question,

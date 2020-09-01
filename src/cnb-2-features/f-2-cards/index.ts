@@ -8,7 +8,7 @@ import {getCards} from "./c-1-controllers/cards/getCards";
 import {addCard} from "./c-1-controllers/cards/addCard";
 import {deleteCard} from "./c-1-controllers/cards/deleteCard";
 import {updateCard} from "./c-1-controllers/cards/updateCard";
-// import {updateGrade} from "./c-1-controllers/grade/updateGrade";
+import {updateGrade} from "./c-1-controllers/grade/updateGrade";
 
 const cards = express.Router();
 
@@ -22,6 +22,6 @@ cards.post("/card", findUserByToken(addCard, "addCard"));
 cards.put("/card", findUserByToken(updateCard, "updateCard"));
 cards.delete("/card", findUserByToken(deleteCard, "deleteCard"));
 
-// cards.put('/grade', findUserByToken(updateGrade, 'updateGrade'));
+cards.put("/grade", findUserByToken(updateGrade, "updateGrade"));
 
 export default cards;

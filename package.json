@@ -7,6 +7,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@types/socket.io": "^2.1.11",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -14,6 +15,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.4",
     "nodemailer": "^6.4.6",
+    "socket.io": "^2.3.0",
     "urlencode": "^1.1.0",
     "uuid": "3.3.3"
   },

@@ -1,12 +1,12 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../f-1-auth/a-2-models/user";
-import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
+import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
 
 export const getUsers = async (req: Request, res: Response, user: IUser) => {
     const {page, pageCount, sortUsers, userName, min, max} = req.query;
 
-    let pageF = +page || 1;
-    const pageCountF = +pageCount || 4;
+    let pageF = page && +page || 1;
+    const pageCountF = pageCount && +pageCount || 4;
     const sortUsersF: string = sortUsers as string | undefined || ''; // '0grade'
     const userNameF: string = userName as string | undefined || '';
 
@@ -26,7 +26,7 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
 
                     const findBase = {
                         name: new RegExp(userNameF as string, 'gi'),
-                        publicCardPacksCount: {$gte: +min || minF, $lte: +max || maxF}
+                        publicCardPacksCount: {$gte: min && +min || minF, $lte: max && +max || maxF}
                     };
 
                     User.find(findBase)

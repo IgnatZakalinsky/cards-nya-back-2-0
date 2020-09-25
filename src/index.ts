@@ -1,14 +1,24 @@
 import express from "express";
+import http from "http";
+import socketIo from "socket.io";
 import mongoose from "mongoose";
 import {MongoDBUris, PORT} from "./cnb-1-main/config";
 import {appUse} from "./cnb-1-main/app";
 import {routes} from "./cnb-1-main/routes";
+import {onConnect} from "./cnb-2-features/f-3-social/s-1-controllers/c1-socket";
 // yarn upgrade
 
 const app = express();
 
 appUse(app);
 routes(app);
+
+const server = http.createServer(app);
+const socketServer = socketIo(server);
+
+socketServer.on('connection', onConnect(socketServer));
+
+/////////////////////////////////////////////////////////////////
 
 mongoose.connect(MongoDBUris, {
     useNewUrlParser: true,
@@ -21,7 +31,7 @@ mongoose.connect(MongoDBUris, {
 
         const port = process.env.PORT || PORT;
 
-        app.listen(port, () => {
+        server.listen(port, () => {
             console.log("Cards-Nya-back 2.0 listening on port: " + port);
         });
     })

@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
+const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortUsers, userName, min, max } = req.query;
-    let pageF = +page || 1;
-    const pageCountF = +pageCount || 4;
+    let pageF = page && +page || 1;
+    const pageCountF = pageCount && +pageCount || 4;
     const sortUsersF = sortUsers || ''; // '0grade'
     const userNameF = userName || '';
     user_1.default.findOne()
@@ -34,7 +34,7 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
             const direction = sortName ? (sortUsersF[0] === '0' ? -1 : 1) : undefined;
             const findBase = {
                 name: new RegExp(userNameF, 'gi'),
-                publicCardPacksCount: { $gte: +min || minF, $lte: +max || maxF }
+                publicCardPacksCount: { $gte: min && +min || minF, $lte: max && +max || maxF }
             };
             user_1.default.find(findBase)
                 .sort({ [sortName]: direction, updated: -1 })
@@ -58,13 +58,13 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         tokenDeathTime: user.tokenDeathTime,
                     });
                 })
-                    .catch(e => findUserByToken_1.status500(res, e, user, 'getUsers/User.count'));
+                    .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.count'));
             })
-                .catch(e => findUserByToken_1.status500(res, e, user, 'getUsers/User.find'));
+                .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.find'));
         })
-            .catch(e => findUserByToken_1.status500(res, e, user, 'getUsers/User.findOne/max'));
+            .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.findOne/max'));
     })
-        .catch(e => findUserByToken_1.status500(res, e, user, 'getUsers/User.findOne/min'));
+        .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.findOne/min'));
 });
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.

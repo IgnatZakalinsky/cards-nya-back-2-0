@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUser = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
+const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.query;
     if (!id)
-        findUserByToken_1.status400(res, `No user id`, user, 'getUser');
+        errorStatuses_1.status400(res, `No user id`, user, 'getUser');
     else
         user_1.default.findById(id)
             .lean()
@@ -26,7 +26,7 @@ exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function
             .exec()
             .then(userF => {
             if (!userF)
-                findUserByToken_1.status400(res, `user id not valid`, user, 'getUser/User.findById');
+                errorStatuses_1.status400(res, `user id not valid`, user, 'getUser/User.findById');
             else
                 res.status(200)
                     .json({
@@ -35,7 +35,7 @@ exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                     tokenDeathTime: user.tokenDeathTime,
                 });
         })
-            .catch(e => findUserByToken_1.status500(res, e, user, 'getUser/User.findById'));
+            .catch(e => errorStatuses_1.status500(res, e, user, 'getUser/User.findById'));
 });
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.

@@ -18,7 +18,7 @@ export const init = (
             user._id = userF._id;
             user.name = userF.name;
             user.socket = socket;
-            answerF && answerF("find user success!")
+            answerF && answerF("find user success!");
         }
     }
 };

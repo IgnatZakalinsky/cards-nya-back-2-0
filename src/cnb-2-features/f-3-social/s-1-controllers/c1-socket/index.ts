@@ -22,7 +22,7 @@ export const onConnect = (socketServer: Server) => (socket: Socket) => {
     const user: UserInMessage & { socket?: Socket } = {_id: v1(), name: "anonymous", socket};
 
     socket.on("init", init(socket, messages, users, user));
-    socket.on("client-message-sent", clientMessageSent(socketServer, socket, users, user));
+    socket.on("client-message-sent", clientMessageSent(socketServer, socket, users, user, messages));
     socket.on("client-name-sent", clientNameSent(socket, users, user));
 
         // socket.broadcast.emit('new-message-sent', {}) // всем кроме себя

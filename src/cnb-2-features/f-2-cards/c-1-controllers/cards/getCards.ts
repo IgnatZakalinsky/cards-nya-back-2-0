@@ -110,6 +110,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                                     resCookie(res, user).status(200)
                                         .json({
                                             cards: cardsFF,
+                                            packUserId: oldCardsPack.user_id,
                                             page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
                                             minGrade: minF, maxGrade: maxF,
                                             token: user.token,

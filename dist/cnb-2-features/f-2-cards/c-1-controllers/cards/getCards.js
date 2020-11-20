@@ -112,6 +112,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         cookie_1.resCookie(res, user).status(200)
                             .json({
                             cards: cardsFF,
+                            packUserId: oldCardsPack.user_id,
                             page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
                             minGrade: minF, maxGrade: maxF,
                             token: user.token,

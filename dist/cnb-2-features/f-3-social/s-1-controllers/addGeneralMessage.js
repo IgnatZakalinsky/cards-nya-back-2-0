@@ -13,18 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addGeneralMessage = void 0;
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
 const generalChatMessage_1 = __importDefault(require("../s-2-models/generalChatMessage"));
+const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 exports.addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { message } = req.body;
     if (!message)
-        findUserByToken_1.status400(res, `No message in body!`, user, 'addGeneralMessage');
+        errorStatuses_1.status400(res, `No message in body!`, user, 'addGeneralMessage');
     else {
         generalChatMessage_1.default.create({
             user_id: user._id,
             user_name: user.name,
             isAdmin: user.isAdmin,
-            avatar: user.avatar,
+            avatar: user.avatar || '',
             message,
         })
             .then((newGeneralChatMessage) => res.status(201).json({
@@ -33,7 +33,7 @@ exports.addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0
             token: user.token,
             tokenDeathTime: user.tokenDeathTime
         }))
-            .catch(e => findUserByToken_1.status500(res, e, user, 'addGeneralMessage/GeneralChatMessage.create'));
+            .catch(e => errorStatuses_1.status500(res, e, user, 'addGeneralMessage/GeneralChatMessage.create'));
     }
 });
 //# sourceMappingURL=addGeneralMessage.js.map

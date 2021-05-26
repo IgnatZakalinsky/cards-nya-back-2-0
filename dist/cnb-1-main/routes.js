@@ -7,11 +7,11 @@ exports.routes = void 0;
 const config_1 = require("./config");
 const f_1_auth_1 = __importDefault(require("../cnb-2-features/f-1-auth"));
 const f_2_cards_1 = __importDefault(require("../cnb-2-features/f-2-cards"));
-// import social from "../cnb-2-features/f-3-social";
+const f_3_social_1 = __importDefault(require("../cnb-2-features/f-3-social"));
 exports.routes = (app) => {
     app.use(config_1.VERSION_2_0 + "/auth", f_1_auth_1.default);
     app.use(config_1.VERSION_2_0 + "/cards", f_2_cards_1.default);
-    // app.use(VERSION_1_0 + "/social", social);
+    app.use(config_1.VERSION_2_0 + "/social", f_3_social_1.default);
     // ping endpoint
     app.use(config_1.VERSION_2_0 + "/ping", (req, res) => {
         // save statistic

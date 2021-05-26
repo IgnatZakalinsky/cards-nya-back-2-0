@@ -77,7 +77,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                             if (pageCountF * (pageF - 1) > cardPacksTotalCount) pageF = 1;
 
                             CardsPack.find(findO)
-                                .sort({...sortO, updated: -1})
+                                .sort({updated: -1, ...sortO})
                                 .skip(pageCountF * (pageF - 1))
                                 .limit(pageCountF)
                                 .lean()

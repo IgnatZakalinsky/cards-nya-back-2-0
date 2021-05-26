@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getGeneralMessages = void 0;
 const generalChatMessage_1 = __importDefault(require("../s-2-models/generalChatMessage"));
-const findUserByToken_1 = require("../../f-1-auth/a-3-helpers/h-2-more/findUserByToken");
+const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 exports.getGeneralMessages = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const {} = req.query;
     generalChatMessage_1.default.find()
@@ -39,7 +39,7 @@ exports.getGeneralMessages = (req, res, user) => __awaiter(void 0, void 0, void 
         // })
         // .catch(e => status500(res, e, user, 'getGeneralMessages/GeneralChatMessage.count'))
     })
-        .catch(e => findUserByToken_1.status500(res, e, user, 'getGeneralMessages/GeneralChatMessage.find'));
+        .catch(e => errorStatuses_1.status500(res, e, user, 'getGeneralMessages/GeneralChatMessage.find'));
 });
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.

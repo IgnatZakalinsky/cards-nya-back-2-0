@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {IUser} from "../../f-1-auth/a-2-models/user";
-import {status400, status500} from "../../f-1-auth/a-3-helpers/h-2-more/findUserByToken";
 import GeneralChatMessage, {IGeneralChatMessage} from "../s-2-models/generalChatMessage";
+import {status400, status500} from "../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
 
 export const addGeneralMessage = async (req: Request, res: Response, user: IUser) => {
     const {message} = req.body;
@@ -13,10 +13,10 @@ export const addGeneralMessage = async (req: Request, res: Response, user: IUser
             user_id: user._id,
             user_name: user.name,
             isAdmin: user.isAdmin,
-            avatar: user.avatar,
+            avatar: user.avatar || '',
 
             message,
-        })
+        } as any)
             .then((newGeneralChatMessage: IGeneralChatMessage) => res.status(201).json({
                 newGeneralChatMessage,
                 success: true,

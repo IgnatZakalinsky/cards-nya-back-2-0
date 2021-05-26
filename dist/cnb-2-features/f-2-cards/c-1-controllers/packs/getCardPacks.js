@@ -73,7 +73,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                 if (pageCountF * (pageF - 1) > cardPacksTotalCount)
                     pageF = 1;
                 cardsPack_1.default.find(findO)
-                    .sort(Object.assign(Object.assign({}, sortO), { updated: -1 }))
+                    .sort(Object.assign({ updated: -1 }, sortO))
                     .skip(pageCountF * (pageF - 1))
                     .limit(pageCountF)
                     .lean()

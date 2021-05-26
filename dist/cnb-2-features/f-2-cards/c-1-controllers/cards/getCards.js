@@ -91,13 +91,13 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     //     .then(cardsTotalCount => {
                     //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
                     card_1.default.find(Object.assign({}, findO))
-                        .sort(Object.assign(Object.assign({}, sortO), { updated: -1 }))
+                        .sort(Object.assign({ updated: -1 }, sortO))
                         // .skip(pageCountF * (pageF - 1))
                         // .limit(pageCountF)
                         .lean()
                         .exec()
                         .then(cards => {
-                        const cardsF = cards.map(c => {
+                        let cardsF = cards.map(c => {
                             const grade = grades.find(g => g.card_id.equals(c._id));
                             if (!grade)
                                 return c;
@@ -106,6 +106,14 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         }).filter(c => {
                             return c.grade >= (min && +min || minF) && c.grade <= (max && +max || maxF);
                         });
+                        if (sortO.grade) {
+                            cardsF = [...cardsF].sort((a, b) => {
+                                if (sortO.grage === 1)
+                                    return a.grade - b.grade;
+                                else
+                                    return b.grade - a.grade;
+                            });
+                        }
                         if (pageCountF * (pageF - 1) > cardsF.length)
                             pageF = 1;
                         const cardsFF = cardsF.slice(pageCountF * (pageF - 1), pageCountF * pageF);

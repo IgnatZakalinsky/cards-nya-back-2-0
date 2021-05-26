@@ -37,7 +37,7 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                 publicCardPacksCount: { $gte: min && +min || minF, $lte: max && +max || maxF }
             };
             user_1.default.find(findBase)
-                .sort({ [sortName]: direction, updated: -1 })
+                .sort({ updated: -1, [sortName]: direction })
                 .skip(pageCountF * (pageF - 1))
                 .limit(pageCountF)
                 .lean()

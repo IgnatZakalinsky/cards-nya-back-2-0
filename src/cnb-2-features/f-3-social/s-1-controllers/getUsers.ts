@@ -30,7 +30,7 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
                     };
 
                     User.find(findBase)
-                        .sort({[sortName]: direction, updated: -1})
+                        .sort({updated: -1, [sortName]: direction})
                         .skip(pageCountF * (pageF - 1))
                         .limit(pageCountF)
                         .lean()

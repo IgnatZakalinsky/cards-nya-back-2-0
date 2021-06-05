@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../f-1-auth/a-2-models/user";
 import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
+import {resCookie} from "../../../cnb-1-main/cookie";
 
 export const getUsers = async (req: Request, res: Response, user: IUser) => {
     const {page, pageCount, sortUsers, userName, min, max} = req.query;
@@ -43,7 +44,7 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
                                 .then(usersTotalCount => {
                                     if (pageCountF * (pageF - 1) > usersTotalCount) pageF = 1;
 
-                                    res.status(200)
+                                    resCookie(res, user).status(200)
                                         .json({
                                             users,
                                             page: pageF, pageCount: pageCountF, usersTotalCount,

@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../../f-1-auth/a-2-models/user";
 import {status400, status500} from "../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
+import {resCookie} from "../../../cnb-1-main/cookie";
 
 export const getUser = async (req: Request, res: Response, user: IUser) => {
     const {id} = req.query;
@@ -14,7 +15,7 @@ export const getUser = async (req: Request, res: Response, user: IUser) => {
         .then(userF => {
             if (!userF) status400(res, `user id not valid`, user, 'getUser/User.findById');
 
-            else res.status(200)
+            else resCookie(res, user).status(200)
                 .json({
                     user: userF,
                     token: user.token,

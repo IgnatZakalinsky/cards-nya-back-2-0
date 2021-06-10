@@ -22,8 +22,8 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
                 .then((userMax: IUser | null) => {
                     const maxF = userMax ? userMax.publicCardPacksCount : minF;
 
-                    const sortName: any = sortUsersF && sortUsersF.length > 2 ? sortUsersF.slice(1) : undefined;
-                    const direction = sortName ? (sortUsersF[0] === '0' ? -1 : 1) : undefined;
+                    const sortName: any = sortUsersF && sortUsersF.length > 2 ? sortUsersF.slice(1) : 'updated';
+                    const direction = sortName ? (sortUsersF[0] === '0' ? -1 : 1) : -1;
 
                     const findBase = {
                         name: new RegExp(userNameF as string, 'gi'),
@@ -31,7 +31,7 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
                     };
 
                     User.find(findBase)
-                        .sort({updated: -1, [sortName]: direction})
+                        .sort({[sortName]: direction})
                         .skip(pageCountF * (pageF - 1))
                         .limit(pageCountF)
                         .lean()

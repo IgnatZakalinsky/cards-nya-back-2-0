@@ -56,7 +56,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
 
                     const sortName: string = (sortPacksF && sortPacksF.length > 2) ? sortPacksF.slice(1) : "";
                     const direction = sortName ? (sortPacksF[0] === "0" ? -1 : 1) : undefined;
-                    const sortO = sortName ? {[sortName]: direction} : {};
+                    const sortO = sortName ? {[sortName]: direction} : {updated: -1};
 
                     const findBase = {
                         name: new RegExp(packNameF, "gi"),
@@ -77,7 +77,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                             if (pageCountF * (pageF - 1) > cardPacksTotalCount) pageF = 1;
 
                             CardsPack.find(findO)
-                                .sort({updated: -1, ...sortO})
+                                .sort(sortO)
                                 .skip(pageCountF * (pageF - 1))
                                 .limit(pageCountF)
                                 .lean()

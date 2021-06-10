@@ -80,7 +80,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     });
                     const sortName = (sortCardsF && sortCardsF.length > 2) ? sortCardsF.slice(1) : "";
                     const direction = sortName ? (sortCardsF[0] === "0" ? -1 : 1) : undefined;
-                    const sortO = sortName ? { [sortName]: direction } : {};
+                    const sortO = sortName ? { [sortName]: direction } : { updated: -1 };
                     const findO = {
                         cardsPack_id: cardsPack_idF,
                         question: new RegExp(cardQuestionF, "gi"),
@@ -91,7 +91,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     //     .then(cardsTotalCount => {
                     //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
                     card_1.default.find(Object.assign({}, findO))
-                        .sort(Object.assign({ updated: -1 }, sortO))
+                        .sort(sortO)
                         // .skip(pageCountF * (pageF - 1))
                         // .limit(pageCountF)
                         .lean()

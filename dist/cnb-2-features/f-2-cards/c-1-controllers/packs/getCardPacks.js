@@ -59,7 +59,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
             const maxF = packMax ? packMax.cardsCount : minF;
             const sortName = (sortPacksF && sortPacksF.length > 2) ? sortPacksF.slice(1) : "";
             const direction = sortName ? (sortPacksF[0] === "0" ? -1 : 1) : undefined;
-            const sortO = sortName ? { [sortName]: direction } : {};
+            const sortO = sortName ? { [sortName]: direction } : { updated: -1 };
             const findBase = {
                 name: new RegExp(packNameF, "gi"),
                 cardsCount: { $gte: min && +min || minF, $lte: max && +max || maxF }
@@ -73,7 +73,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                 if (pageCountF * (pageF - 1) > cardPacksTotalCount)
                     pageF = 1;
                 cardsPack_1.default.find(findO)
-                    .sort(Object.assign({ updated: -1 }, sortO))
+                    .sort(sortO)
                     .skip(pageCountF * (pageF - 1))
                     .limit(pageCountF)
                     .lean()

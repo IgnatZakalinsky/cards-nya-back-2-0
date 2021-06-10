@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUser = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
 const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
+const cookie_1 = require("../../../cnb-1-main/cookie");
 exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.query;
     if (!id)
@@ -28,7 +29,7 @@ exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function
             if (!userF)
                 errorStatuses_1.status400(res, `user id not valid`, user, 'getUser/User.findById');
             else
-                res.status(200)
+                cookie_1.resCookie(res, user).status(200)
                     .json({
                     user: userF,
                     token: user.token,

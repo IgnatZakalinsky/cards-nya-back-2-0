@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
 const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
+const cookie_1 = require("../../../cnb-1-main/cookie");
 exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortUsers, userName, min, max } = req.query;
     let pageF = page && +page || 1;
@@ -30,14 +31,14 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
             .sort({ publicCardPacksCount: -1 }).exec()
             .then((userMax) => {
             const maxF = userMax ? userMax.publicCardPacksCount : minF;
-            const sortName = sortUsersF && sortUsersF.length > 2 ? sortUsersF.slice(1) : undefined;
-            const direction = sortName ? (sortUsersF[0] === '0' ? -1 : 1) : undefined;
+            const sortName = sortUsersF && sortUsersF.length > 2 ? sortUsersF.slice(1) : 'updated';
+            const direction = sortName ? (sortUsersF[0] === '0' ? -1 : 1) : -1;
             const findBase = {
                 name: new RegExp(userNameF, 'gi'),
                 publicCardPacksCount: { $gte: min && +min || minF, $lte: max && +max || maxF }
             };
             user_1.default.find(findBase)
-                .sort({ updated: -1, [sortName]: direction })
+                .sort({ [sortName]: direction })
                 .skip(pageCountF * (pageF - 1))
                 .limit(pageCountF)
                 .lean()
@@ -49,7 +50,7 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     .then(usersTotalCount => {
                     if (pageCountF * (pageF - 1) > usersTotalCount)
                         pageF = 1;
-                    res.status(200)
+                    cookie_1.resCookie(res, user).status(200)
                         .json({
                         users,
                         page: pageF, pageCount: pageCountF, usersTotalCount,

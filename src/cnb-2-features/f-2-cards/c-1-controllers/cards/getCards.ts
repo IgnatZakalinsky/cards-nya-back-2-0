@@ -73,7 +73,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
 
                             const sortName: string = (sortCardsF && sortCardsF.length > 2) ? sortCardsF.slice(1) : "";
                             const direction = sortName ? (sortCardsF[0] === "0" ? -1 : 1) : undefined;
-                            const sortO = sortName ? {[sortName]: direction} : {};
+                            const sortO: any = sortName ? {[sortName]: direction} : {updated: -1};
 
                             const findO = {
                                 cardsPack_id: cardsPack_idF,
@@ -88,7 +88,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                             //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
 
                             Card.find({...findO})
-                                .sort({updated: -1, ...sortO})
+                                .sort(sortO)
                                 // .skip(pageCountF * (pageF - 1))
                                 // .limit(pageCountF)
                                 .lean()

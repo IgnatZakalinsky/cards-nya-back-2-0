@@ -64,20 +64,19 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     .lean()
                     .exec()
                     .then(grades => {
-                    let minF = 0;
-                    let maxF = 6;
-                    const cardsF = allCards.map(c => {
-                        const grade = grades.find(g => g.card_id.equals(c._id));
-                        if (!grade)
-                            return c;
-                        else {
-                            if (minF > grade.grade)
-                                minF = grade.grade;
-                            if (maxF < grade.grade)
-                                maxF = grade.grade;
-                            return Object.assign(Object.assign({}, c), { grade: grade.grade, shots: grade.shots });
-                        }
-                    });
+                    // let minF = 0;
+                    // let maxF = 6;
+                    // const cardsF = allCards.map(c => {
+                    //     const grade = grades.find(g => g.card_id.equals(c._id));
+                    //
+                    //     if (!grade) return c;
+                    //     else {
+                    //         if (minF > grade.grade) minF = grade.grade;
+                    //         if (maxF < grade.grade) maxF = grade.grade;
+                    //
+                    //         return {...c, grade: grade.grade, shots: grade.shots};
+                    //     }
+                    // });
                     const sortName = (sortCardsF && sortCardsF.length > 2) ? sortCardsF.slice(1) : "";
                     const direction = sortName ? (sortCardsF[0] === "0" ? -1 : 1) : undefined;
                     const sortO = sortName ? { [sortName]: direction } : { updated: -1 };
@@ -104,7 +103,8 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                             else
                                 return Object.assign(Object.assign({}, c), { grade: grade.grade, shots: grade.shots });
                         }).filter(c => {
-                            return c.grade >= (min && +min || minF) && c.grade <= (max && +max || maxF);
+                            return (c.grade >= ((min && +min) || 0))
+                                && (c.grade <= ((max && +max) || 6));
                         });
                         if (sortO.grade) {
                             cardsF = [...cardsF].sort((a, b) => {
@@ -122,7 +122,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                             cards: cardsFF,
                             packUserId: oldCardsPack.user_id,
                             page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
-                            minGrade: minF, maxGrade: maxF,
+                            minGrade: 0, maxGrade: 6,
                             token: user.token,
                             tokenDeathTime: user.tokenDeathTime,
                         });

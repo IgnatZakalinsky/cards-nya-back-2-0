@@ -7,7 +7,7 @@ export const findUserByToken = (
     f: (req: Request, res: Response, user: IUser) => void,
     inTry: string,
 ) => async (req: Request, res: Response) => {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.body.token || req.query.token;
 
     try {
         const user: IUser | null = await User.findOne({token}).exec();

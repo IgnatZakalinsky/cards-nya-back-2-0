@@ -56,20 +56,20 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                         .lean()
                         .exec()
                         .then(grades => {
-                            let minF = 0;
-                            let maxF = 6;
+                            // let minF = 0;
+                            // let maxF = 6;
 
-                            const cardsF = allCards.map(c => {
-                                const grade = grades.find(g => g.card_id.equals(c._id));
-
-                                if (!grade) return c;
-                                else {
-                                    if (minF > grade.grade) minF = grade.grade;
-                                    if (maxF < grade.grade) maxF = grade.grade;
-
-                                    return {...c, grade: grade.grade, shots: grade.shots};
-                                }
-                            });
+                            // const cardsF = allCards.map(c => {
+                            //     const grade = grades.find(g => g.card_id.equals(c._id));
+                            //
+                            //     if (!grade) return c;
+                            //     else {
+                            //         if (minF > grade.grade) minF = grade.grade;
+                            //         if (maxF < grade.grade) maxF = grade.grade;
+                            //
+                            //         return {...c, grade: grade.grade, shots: grade.shots};
+                            //     }
+                            // });
 
                             const sortName: string = (sortCardsF && sortCardsF.length > 2) ? sortCardsF.slice(1) : "";
                             const direction = sortName ? (sortCardsF[0] === "0" ? -1 : 1) : undefined;
@@ -100,7 +100,8 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                                         if (!grade) return c;
                                         else return {...c, grade: grade.grade, shots: grade.shots};
                                     }).filter(c => {
-                                        return c.grade >= (min && +min || minF) && c.grade <= (max && +max || maxF);
+                                        return (c.grade >= ((min && +min) || 0))
+                                            && (c.grade <= ((max && +max) || 6));
                                     });
 
                                     if (sortO.grade) {
@@ -119,7 +120,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                                             cards: cardsFF,
                                             packUserId: oldCardsPack.user_id,
                                             page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
-                                            minGrade: minF, maxGrade: maxF,
+                                            minGrade: 0, maxGrade: 6,
                                             token: user.token,
                                             tokenDeathTime: user.tokenDeathTime,
                                         });

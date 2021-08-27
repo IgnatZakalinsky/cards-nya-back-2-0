@@ -17,7 +17,7 @@ const user_1 = __importDefault(require("../../a-2-models/user"));
 const generateToken_1 = require("./generateToken");
 const config_1 = require("../../../../cnb-1-main/config");
 exports.findUserByToken = (f, inTry) => (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.body.token || req.query.token;
     try {
         const user = yield user_1.default.findOne({ token }).exec();
         if (!user || !user.tokenDeathTime || user.tokenDeathTime < new Date().getTime())

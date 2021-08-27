@@ -90,7 +90,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     //     .then(cardsTotalCount => {
                     //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
                     card_1.default.find(Object.assign({}, findO))
-                        .sort(sortO)
+                        .sort(sortO.grade ? { updated: -1 } : sortO)
                         // .skip(pageCountF * (pageF - 1))
                         // .limit(pageCountF)
                         .lean()
@@ -107,12 +107,17 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                                 && (c.grade <= ((max && +max) || 6));
                         });
                         if (sortO.grade) {
-                            cardsF = [...cardsF].sort((a, b) => {
-                                if (sortO.grage === 1)
-                                    return a.grade - b.grade;
+                            cardsF.sort((a, b) => {
+                                if (a.grade > b.grade)
+                                    return 1;
+                                if (a.grade < b.grade)
+                                    return -1;
                                 else
-                                    return b.grade - a.grade;
+                                    return 0;
                             });
+                            if (sortO.grade === 1) {
+                                cardsF = cardsF.reverse();
+                            }
                         }
                         if (pageCountF * (pageF - 1) > cardsF.length)
                             pageF = 1;

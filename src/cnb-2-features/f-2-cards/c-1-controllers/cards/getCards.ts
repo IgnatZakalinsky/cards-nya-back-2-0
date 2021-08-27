@@ -88,7 +88,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                             //         if (pageCountF * (pageF - 1) > cardsTotalCount) pageF = 1;
 
                             Card.find({...findO})
-                                .sort(sortO)
+                                .sort(sortO.grade ? {updated: -1} : sortO)
                                 // .skip(pageCountF * (pageF - 1))
                                 // .limit(pageCountF)
                                 .lean()
@@ -105,10 +105,14 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                                     });
 
                                     if (sortO.grade) {
-                                        cardsF = [...cardsF].sort((a, b) => {
-                                            if (sortO.grage === 1) return a.grade - b.grade
-                                            else return b.grade - a.grade
+                                        cardsF.sort((a, b) => {
+                                            if (a.grade > b.grade) return 1
+                                            if (a.grade < b.grade) return -1
+                                            else return 0
                                         })
+                                        if (sortO.grade === 1) {
+                                            cardsF = cardsF.reverse()
+                                        }
                                     }
 
                                     if (pageCountF * (pageF - 1) > cardsF.length) pageF = 1;

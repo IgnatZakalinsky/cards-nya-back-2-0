@@ -6,7 +6,7 @@ import {MongoDBUris, PORT} from "./cnb-1-main/config";
 import {appUse} from "./cnb-1-main/app";
 import {routes} from "./cnb-1-main/routes";
 import {onConnect} from "./cnb-2-features/f-3-social/s-1-controllers/c1-socket";
-// yarn upgrade
+// x2
 
 const app = express();
 

@@ -40,7 +40,7 @@ exports.sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, 
     // for accept
     // https://myaccount.google.com/lesssecureapps
     const info = yield transporter.sendMail({
-        from,
+        from: 'neko.cafe@outlook.com',
         to,
         subject,
         text,

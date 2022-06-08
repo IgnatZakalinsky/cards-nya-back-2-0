@@ -1,14 +1,27 @@
 import nodeMailer from "nodemailer";
 import {DEV_VERSION, GMAIL_PASS, GMAIL_USER} from "../../../../cnb-1-main/config";
 
-const transporter = nodeMailer.createTransport({
-    service: "gmail",
+// @ts-ignore
+const transporter = nodeMailer.createTransport({ service: "Outlook365",
+    host: "smtp.office365.com",
+    port: "587",
+    tls: {
+        ciphers: "SSLv3",
+        rejectUnauthorized: false,
+    },
     auth: {
-        type: "login",
-        user: process.env.GMAIL_USER || GMAIL_USER,
+        user: 'neko.cafe@outlook.com',
         pass: process.env.GMAIL_PASS || GMAIL_PASS
     }
 });
+// const transporter = nodeMailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//         type: "login",
+//         user: process.env.GMAIL_USER || GMAIL_USER,
+//         pass: process.env.GMAIL_PASS || GMAIL_PASS
+//     }
+// });
 
 export const sendMail = async (from: string, to: string, subject: string, html?: string, text?: string) => {
 
@@ -26,3 +39,4 @@ export const sendMail = async (from: string, to: string, subject: string, html?:
 
     return info;
 };
+

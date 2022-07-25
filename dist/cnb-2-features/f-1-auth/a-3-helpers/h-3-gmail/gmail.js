@@ -15,27 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const config_1 = require("../../../../cnb-1-main/config");
-// @ts-ignore
-const transporter = nodemailer_1.default.createTransport({ service: "Outlook365",
-    host: "smtp.office365.com",
-    port: "587",
-    tls: {
-        ciphers: "SSLv3",
-        rejectUnauthorized: false,
-    },
-    auth: {
-        user: 'neko.cafe@outlook.com',
-        pass: process.env.GMAIL_PASS || config_1.GMAIL_PASS
-    }
-});
-// const transporter = nodeMailer.createTransport({
-//     service: "gmail",
+// // @ts-ignore
+// const transporter = nodeMailer.createTransport({ service: "Outlook365",
+//     host: "smtp.office365.com",
+//     port: "587",
+//     tls: {
+//         ciphers: "SSLv3",
+//         rejectUnauthorized: false,
+//     },
 //     auth: {
-//         type: "login",
-//         user: process.env.GMAIL_USER || GMAIL_USER,
+//         user: 'neko.cafe@outlook.com',
 //         pass: process.env.GMAIL_PASS || GMAIL_PASS
 //     }
 // });
+const transporter = nodemailer_1.default.createTransport({
+    service: "gmail",
+    auth: {
+        // type: "login",
+        user: process.env.GMAIL_USER || config_1.GMAIL_USER,
+        pass: process.env.GMAIL_PASS || config_1.GMAIL_PASS
+    }
+});
 exports.sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
     // for accept
     // https://myaccount.google.com/lesssecureapps

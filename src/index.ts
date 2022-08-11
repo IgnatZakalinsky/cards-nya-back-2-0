@@ -6,8 +6,7 @@ import {MongoDBUris, PORT} from "./cnb-1-main/config";
 import {appUse} from "./cnb-1-main/app";
 import {routes} from "./cnb-1-main/routes";
 import {onConnect} from "./cnb-2-features/f-3-social/s-1-controllers/c1-socket";
-import {sendMail} from "./cnb-2-features/f-1-auth/a-3-helpers/h-3-gmail/gmail";
-// yarn upgrade
+// xxx
 
 const app = express();
 
@@ -32,16 +31,8 @@ mongoose.connect(MongoDBUris, {
 
         const port = process.env.PORT || PORT;
 
-        server.listen(port, async() => {
+        server.listen(port, () => {
             console.log("Cards-Nya-back 2.0 listening on port: " + port);
-
-
-            // try {
-            //     const x = await sendMail('neko.cafe@outlook.com', 'ai73a@yandex.com', 'aaa', '<div style="background-color: lime">zzz</div>')
-            //     console.log(x)
-            // } catch (e) {
-            //     console.log(e, {...e})
-            // }
         });
     })
     .catch(e => console.log("Nya-MongoDB connection error: ", {...e}));

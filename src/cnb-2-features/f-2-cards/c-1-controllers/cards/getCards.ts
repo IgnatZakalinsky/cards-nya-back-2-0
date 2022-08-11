@@ -123,6 +123,7 @@ export const getCards = async (req: Request, res: Response, user: IUser) => {
                                         .json({
                                             cards: cardsFF,
                                             packUserId: oldCardsPack.user_id,
+                                            packName: oldCardsPack.name,
                                             page: pageF, pageCount: pageCountF, cardsTotalCount: cardsF.length,
                                             minGrade: 0, maxGrade: 6,
                                             token: user.token,

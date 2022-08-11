@@ -11,7 +11,7 @@ const config_1 = require("./cnb-1-main/config");
 const app_1 = require("./cnb-1-main/app");
 const routes_1 = require("./cnb-1-main/routes");
 const c1_socket_1 = require("./cnb-2-features/f-3-social/s-1-controllers/c1-socket");
-// yarn upgrade
+// xxx
 const app = express_1.default();
 app_1.appUse(app);
 routes_1.routes(app);

@@ -3,11 +3,11 @@ import {Server, Socket} from "socket.io";
 import {Message, UserInMessage} from "./index";
 
 export const clientMessageSent = (
-    socketServer: Server,
-    socket: Socket,
-    users: Array<UserInMessage & { socket?: Socket }>,
-    user: UserInMessage & { socket?: Socket },
-    messages: Message[]
+  socketServer: Server,
+  socket: Socket,
+  users: Array<UserInMessage & { socket?: Socket }>,
+  user: UserInMessage & { socket?: Socket },
+  messages: Message[]
 ) => (arg: any, answerF: Function) => {
     console.log("message: " + arg);
     if (typeof arg !== "string") answerF && answerF("Message not string!");
@@ -19,7 +19,7 @@ export const clientMessageSent = (
             users.push(user);
         }
 
-        const newM: Message = {message: arg, _id: v1(), user: {_id: user._id, name: user.name}};
+        const newM: Message = {message: arg, _id: v1(), user: {_id: user._id, name: user.name, avatar: user.avatar}};
         messages.push(newM);
         socketServer.emit("new-message-sent", newM);
     }

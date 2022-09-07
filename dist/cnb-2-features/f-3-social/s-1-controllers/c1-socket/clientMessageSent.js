@@ -11,7 +11,7 @@ exports.clientMessageSent = (socketServer, socket, users, user, messages) => (ar
         if (!users.find(u => u.socket === socket)) {
             users.push(user);
         }
-        const newM = { message: arg, _id: uuid_1.v1(), user: { _id: user._id, name: user.name } };
+        const newM = { message: arg, _id: uuid_1.v1(), user: { _id: user._id, name: user.name, avatar: user.avatar } };
         messages.push(newM);
         socketServer.emit("new-message-sent", newM);
     }

@@ -10,6 +10,7 @@ exports.init = (socket, messages, users, user) => (arg, answerF) => {
         else {
             user._id = userF._id;
             user.name = userF.name;
+            user.avatar = userF.avatar;
             user.socket = socket;
             answerF && answerF("find user success!");
         }

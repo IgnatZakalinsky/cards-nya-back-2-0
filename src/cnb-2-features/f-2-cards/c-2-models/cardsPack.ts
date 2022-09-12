@@ -18,6 +18,9 @@ export interface ICardsPack extends Document {
     rating: number; // hz
     more_id: mongoose.Types.ObjectId;
 
+    isDeleted?: boolean
+    isBlocked?: boolean
+
     created: Date;
     updated: Date;
 
@@ -73,7 +76,13 @@ const CardsPack: Schema = new Schema(
         },
         more_id: {
             type: Schema.Types.ObjectId,
-        }
+        },
+        isDeleted: {
+            type: Boolean,
+        },
+        isBlocked: {
+            type: Boolean,
+        },
 
     },
     {

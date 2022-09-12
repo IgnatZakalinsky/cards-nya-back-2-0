@@ -17,6 +17,14 @@ export interface IUser extends Document {
     resetPasswordToken?: string;
     resetPasswordTokenDeathTime?: number;
 
+    isDeleted?: boolean
+    deleteTime?: number
+
+    isBlocked?: boolean
+    blockTime?: number
+    blockUserId?: string
+    blockReason?: string
+
     created: Date;
     updated: Date;
 
@@ -69,6 +77,24 @@ const UserSchema: Schema = new Schema(
         },
         resetPasswordTokenDeathTime: {
             type: Number,
+        },
+        isDeleted: {
+            type: Boolean,
+        },
+        deleteTime: {
+            type: Number,
+        },
+        isBlocked: {
+            type: Boolean,
+        },
+        blockTime: {
+            type: Number,
+        },
+        blockUserId: {
+            type: String,
+        },
+        blockReason: {
+            type: String,
         },
 
     },

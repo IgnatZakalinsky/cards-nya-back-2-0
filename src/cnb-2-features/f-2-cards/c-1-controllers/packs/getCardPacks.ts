@@ -5,7 +5,13 @@ import {status500} from "../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
 import {resCookie} from "../../../../cnb-1-main/cookie";
 
 export const getCardPacks = async (req: Request, res: Response, user: IUser) => {
-    const {page, pageCount, sortPacks, packName, min, max, user_id, type} = req.query;
+    const {page, pageCount, sortPacks, packName, min, max, user_id, type, block} = req.query;
+    const findF: any = {
+        isDeleted: {$ne: true}
+    }
+    if (!block) {
+        findF.isBlocked = {$ne: true}
+    }
 
     let pageF = page && +page || 1;
     const pageCountF = pageCount && +pageCount || 4;
@@ -18,7 +24,12 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
 
     // min max
 
-    const user_idO = user_idF ? {user_id: user_idF} : undefined; // options
+    const user_idO = user_idF
+        ? {
+            user_id: user_idF,
+            ...findF,
+        }
+        : findF; // options
 
     // await CardsPack.create({
     //     user_id: user._id,
@@ -68,7 +79,8 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                     const findO = {
                         ...findByUserId,
                         ...findBase,
-                        ...findPrivate
+                        ...findPrivate,
+                        ...findF,
                     };
 
                     CardsPack.count(findO)

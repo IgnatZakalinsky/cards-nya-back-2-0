@@ -4,20 +4,26 @@ import {status500} from "../../f-1-auth/a-3-helpers/h-2-more/errorStatuses";
 import {resCookie} from "../../../cnb-1-main/cookie";
 
 export const getUsers = async (req: Request, res: Response, user: IUser) => {
-    const {page, pageCount, sortUsers, userName, min, max} = req.query;
+    const {page, pageCount, sortUsers, userName, min, max, block} = req.query;
+    const findF: any = {
+        isDeleted: {$ne: true}
+    }
+    if (!block) {
+        findF.isBlocked = {$ne: true}
+    }
 
     let pageF = page && +page || 1;
     const pageCountF = pageCount && +pageCount || 4;
     const sortUsersF: string = sortUsers as string | undefined || ''; // '0grade'
     const userNameF: string = userName as string | undefined || '';
 
-    User.findOne()
+    User.findOne(findF)
         .sort({publicCardPacksCount: 1})
         .exec()
         .then((userMin: IUser | null) => {
             const minF = userMin ? userMin.publicCardPacksCount : 0;
 
-            User.findOne()
+            User.findOne(findF)
                 .sort({publicCardPacksCount: -1}).exec()
                 .then((userMax: IUser | null) => {
                     const maxF = userMax ? userMax.publicCardPacksCount : minF;
@@ -27,7 +33,8 @@ export const getUsers = async (req: Request, res: Response, user: IUser) => {
 
                     const findBase = {
                         name: new RegExp(userNameF as string, 'gi'),
-                        publicCardPacksCount: {$gte: min && +min || minF, $lte: max && +max || maxF}
+                        publicCardPacksCount: {$gte: min && +min || minF, $lte: max && +max || maxF},
+                        ...findF,
                     };
 
                     User.find(findBase)

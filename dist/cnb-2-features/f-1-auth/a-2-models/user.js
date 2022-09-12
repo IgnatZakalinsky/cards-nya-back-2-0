@@ -65,6 +65,24 @@ const UserSchema = new mongoose_1.Schema({
     resetPasswordTokenDeathTime: {
         type: Number,
     },
+    isDeleted: {
+        type: Boolean,
+    },
+    deleteTime: {
+        type: Number,
+    },
+    isBlocked: {
+        type: Boolean,
+    },
+    blockTime: {
+        type: Number,
+    },
+    blockUserId: {
+        type: String,
+    },
+    blockReason: {
+        type: String,
+    },
 }, {
     timestamps: {
         createdAt: "created",

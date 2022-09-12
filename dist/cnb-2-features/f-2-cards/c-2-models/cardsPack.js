@@ -66,7 +66,13 @@ const CardsPack = new mongoose_1.Schema({
     },
     more_id: {
         type: mongoose_1.Schema.Types.ObjectId,
-    }
+    },
+    isDeleted: {
+        type: Boolean,
+    },
+    isBlocked: {
+        type: Boolean,
+    },
 }, {
     timestamps: {
         createdAt: "created",

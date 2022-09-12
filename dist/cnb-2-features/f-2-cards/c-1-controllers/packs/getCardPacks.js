@@ -17,7 +17,13 @@ const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
 exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
-    const { page, pageCount, sortPacks, packName, min, max, user_id, type } = req.query;
+    const { page, pageCount, sortPacks, packName, min, max, user_id, type, block } = req.query;
+    const findF = {
+        isDeleted: { $ne: true }
+    };
+    if (!block) {
+        findF.isBlocked = { $ne: true };
+    }
     let pageF = page && +page || 1;
     const pageCountF = pageCount && +pageCount || 4;
     const sortPacksF = sortPacks || ""; // '0grade'
@@ -25,7 +31,8 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
     const user_idF = user_id || undefined;
     const typeF = type || "pack";
     // min max
-    const user_idO = user_idF ? { user_id: user_idF } : undefined; // options
+    const user_idO = user_idF
+        ? Object.assign({ user_id: user_idF }, findF) : findF; // options
     // await CardsPack.create({
     //     user_id: user._id,
     //     user_name: user.name,
@@ -66,7 +73,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
             };
             const findPrivate = user_idF && user._id.equals(user_idF) ? {} : { private: false };
             const findByUserId = user_id ? { user_id: user_idF } : {};
-            const findO = Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate);
+            const findO = Object.assign(Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate), findF);
             cardsPack_1.default.count(findO)
                 .exec()
                 .then(cardPacksTotalCount => {

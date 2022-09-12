@@ -19,7 +19,7 @@ const socketServer = socketIo(server);
 socketServer.on('connection', onConnect(socketServer));
 
 /////////////////////////////////////////////////////////////////
-
+console.log({MongoDBUris})
 mongoose.connect(MongoDBUris, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

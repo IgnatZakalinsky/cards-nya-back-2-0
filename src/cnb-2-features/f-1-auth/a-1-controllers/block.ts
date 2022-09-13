@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import {resCookie} from "../../../cnb-1-main/cookie";
+import CardsPack from "../../f-2-cards/c-2-models/cardsPack";
 
 export const block = async (req: Request, res: Response, user: IUser) => {
     const {id, blockReason} = req.body
@@ -25,5 +26,10 @@ export const block = async (req: Request, res: Response, user: IUser) => {
     u.blockUserId = user._id + ''
     u.isBlocked = true
 
-    resCookie(res, user).status(200).json({ok: 'user blocked'});
+    const ps = await CardsPack.find({user_id: u._id.toString()},)
+    for (let p of ps) {
+        await CardsPack.findByIdAndUpdate(p._id, {isBlocked: true})
+    }
+
+    resCookie(res, user).status(200).json({user: 'blocked', blockedCardPacksCount: ps.length});
 }

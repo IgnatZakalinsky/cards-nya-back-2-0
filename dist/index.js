@@ -19,6 +19,7 @@ const server = http_1.default.createServer(app);
 const socketServer = socket_io_1.default(server);
 socketServer.on('connection', c1_socket_1.onConnect(socketServer));
 /////////////////////////////////////////////////////////////////
+console.log({ MongoDBUris: config_1.MongoDBUris });
 mongoose_1.default.connect(config_1.MongoDBUris, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

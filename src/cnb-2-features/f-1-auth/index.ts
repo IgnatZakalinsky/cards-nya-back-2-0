@@ -8,6 +8,7 @@ import {passwordRecovery} from "./a-1-controllers/passwordRecovery";
 import {setNewPassword} from "./a-1-controllers/setNewPassword";
 import {updateUser} from "./a-1-controllers/updateUser";
 import {logOut} from "./a-1-controllers/logOut";
+import {block} from "./a-1-controllers/block";
 
 const auth = express.Router();
 
@@ -16,6 +17,7 @@ auth.get("/", getUsersForDev); // for dev
 auth.post("/login", logIn);
 auth.post("/register", createUser);
 auth.post("/me", findUserByToken(getMe, "getMe"));
+auth.post("/block", findUserByToken(block, "block"));
 auth.put("/me", findUserByToken(updateUser, "updateUser"));
 auth.delete("/me", findUserByToken(logOut, "logOut"));
 auth.post("/forgot", passwordRecovery);

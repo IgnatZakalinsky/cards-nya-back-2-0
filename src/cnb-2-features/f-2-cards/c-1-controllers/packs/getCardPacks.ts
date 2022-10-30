@@ -89,7 +89,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
 
                         console.log({findO})
 
-                        CardsPack.count(findO)
+                        CardsPack.countDocuments(findO)
                             .exec()
                             .then(cardPacksTotalCount => {
                                 if (pageCountF * (pageF - 1) > cardPacksTotalCount) pageF = 1;

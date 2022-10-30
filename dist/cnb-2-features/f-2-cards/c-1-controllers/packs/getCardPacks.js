@@ -27,7 +27,8 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
         }
         let pageF = page && +page || 1;
         let pageCountF = pageCount && +pageCount || 4;
-        // if (pageCountF > 10) pageCountF = 10
+        if (pageCountF > 50)
+            pageCountF = 50;
         const sortPacksF = sortPacks || ""; // '0grade'
         const packNameF = packName || "";
         const user_idF = user_id || undefined;
@@ -76,13 +77,11 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                 const findPrivate = user_idF && user._id.equals(user_idF) ? {} : { private: false };
                 const findByUserId = user_id ? { user_id: user_idF } : {};
                 const findO = Object.assign(Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate), findF);
-                console.log({ findO });
                 cardsPack_1.default.countDocuments(findO)
                     .exec()
                     .then(cardPacksTotalCount => {
                     if (pageCountF * (pageF - 1) > cardPacksTotalCount)
                         pageF = 1;
-                    console.log({ cardPacksTotalCount });
                     cardsPack_1.default.find(findO)
                         .sort(sortO)
                         .skip(pageCountF * (pageF - 1))
@@ -90,7 +89,6 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                         .lean()
                         .exec()
                         .then(cardPacks => {
-                        console.log({ cardPacks: (cardPacks === null || cardPacks === void 0 ? void 0 : cardPacks.length) || 0 });
                         cookie_1.resCookie(res, user).status(200)
                             .json({
                             cardPacks,

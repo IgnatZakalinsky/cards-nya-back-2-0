@@ -9,9 +9,9 @@ const cookie_1 = require("./cookie");
 exports.appUse = (app) => {
     cookie_1.cookie(app);
     // parse application/json
-    app.use(body_parser_1.default.json({ limit: "7mb" }));
+    app.use(body_parser_1.default.json({ limit: "1mb" }));
     // parse application/x-www-form-urlencoded
-    app.use(body_parser_1.default.urlencoded({ limit: "7mb", extended: false }));
+    app.use(body_parser_1.default.urlencoded({ limit: "1mb", extended: false }));
     // log middleware
     app.use((req, res, next) => {
         console.log("Time: ", new Date().toString());

@@ -89,6 +89,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                         .lean()
                         .exec()
                         .then(cardPacks => {
+                        console.log({ cardPacks });
                         cookie_1.resCookie(res, user).status(200)
                             .json({
                             cardPacks,

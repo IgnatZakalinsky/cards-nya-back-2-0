@@ -16,7 +16,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
 
         let pageF = page && +page || 1;
         let pageCountF = pageCount && +pageCount || 4;
-        // if (pageCountF > 10) pageCountF = 10
+        if (pageCountF > 50) pageCountF = 50
 
         const sortPacksF: string = sortPacks as string | undefined || ""; // '0grade'
         const packNameF: string = packName as string | undefined || "";
@@ -85,13 +85,10 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                             ...findF,
                         };
 
-                        console.log({findO})
-
                         CardsPack.countDocuments(findO)
                             .exec()
                             .then(cardPacksTotalCount => {
                                 if (pageCountF * (pageF - 1) > cardPacksTotalCount) pageF = 1;
-                                console.log({cardPacksTotalCount})
 
                                 CardsPack.find(findO)
                                     .sort(sortO)
@@ -100,7 +97,6 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                                     .lean()
                                     .exec()
                                     .then(cardPacks => {
-                                        console.log({cardPacks: cardPacks?.length || 0})
 
                                         resCookie(res, user).status(200)
                                             .json({

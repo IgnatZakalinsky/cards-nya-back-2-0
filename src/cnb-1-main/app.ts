@@ -6,9 +6,9 @@ export const appUse = (app: Express) => {
     cookie(app);
 
     // parse application/json
-    app.use(bodyParser.json({limit: "7mb"}));
+    app.use(bodyParser.json({limit: "1mb"}));
     // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({limit: "7mb", extended: false}));
+    app.use(bodyParser.urlencoded({limit: "1mb", extended: false}));
 
     // log middleware
     app.use((req: Request, res: Response, next: NextFunction) => {

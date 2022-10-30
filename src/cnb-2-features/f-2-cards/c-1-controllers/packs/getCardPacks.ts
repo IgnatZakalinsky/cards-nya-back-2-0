@@ -97,6 +97,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                                     .lean()
                                     .exec()
                                     .then(cardPacks => {
+                                        console.log({cardPacks})
 
                                         resCookie(res, user).status(200)
                                             .json({

@@ -34,6 +34,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
         // min max
         const user_idO = user_idF
             ? Object.assign({ user_id: user_idF }, findF) : findF; // options
+        console.log({ user_idO });
         // await CardsPack.create({
         //     user_id: user._id,
         //     user_name: user.name,
@@ -61,6 +62,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
             .exec()
             .then((packMin) => {
             const minF = packMin ? packMin.cardsCount : 0;
+            console.log({ minF });
             cardsPack_1.default.findOne(user_idO)
                 .sort({ cardsCount: -1 }).exec() // поиск колоды с максимальным количеством карточек
                 .then((packMax) => {
@@ -75,6 +77,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                 const findPrivate = user_idF && user._id.equals(user_idF) ? {} : { private: false };
                 const findByUserId = user_id ? { user_id: user_idF } : {};
                 const findO = Object.assign(Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate), findF);
+                console.log({ findO });
                 cardsPack_1.default.count(findO)
                     .exec()
                     .then(cardPacksTotalCount => {
@@ -87,6 +90,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                         .lean()
                         .exec()
                         .then(cardPacks => {
+                        console.log({ cardPacks });
                         cookie_1.resCookie(res, user).status(200)
                             .json({
                             cardPacks,

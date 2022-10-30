@@ -78,7 +78,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                 const findByUserId = user_id ? { user_id: user_idF } : {};
                 const findO = Object.assign(Object.assign(Object.assign(Object.assign({}, findByUserId), findBase), findPrivate), findF);
                 console.log({ findO });
-                cardsPack_1.default.count(findO)
+                cardsPack_1.default.countDocuments(findO)
                     .exec()
                     .then(cardPacksTotalCount => {
                     if (pageCountF * (pageF - 1) > cardPacksTotalCount)

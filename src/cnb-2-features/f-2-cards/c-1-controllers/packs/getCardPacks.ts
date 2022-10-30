@@ -16,7 +16,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
 
         let pageF = page && +page || 1;
         let pageCountF = pageCount && +pageCount || 4;
-        if (pageCountF > 10) pageCountF = 10
+        // if (pageCountF > 10) pageCountF = 10
 
         const sortPacksF: string = sortPacks as string | undefined || ""; // '0grade'
         const packNameF: string = packName as string | undefined || "";
@@ -32,8 +32,6 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                 ...findF,
             }
             : findF; // options
-
-        console.log({user_idO})
 
         // await CardsPack.create({
         //     user_id: user._id,
@@ -63,7 +61,6 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
             .exec()
             .then((packMin: ICardsPack | null) => {
                 const minF = packMin ? packMin.cardsCount : 0;
-                console.log({minF})
 
                 CardsPack.findOne(user_idO)
                     .sort({cardsCount: -1}).exec() // поиск колоды с максимальным количеством карточек
@@ -94,6 +91,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                             .exec()
                             .then(cardPacksTotalCount => {
                                 if (pageCountF * (pageF - 1) > cardPacksTotalCount) pageF = 1;
+                                console.log({cardPacksTotalCount})
 
                                 CardsPack.find(findO)
                                     .sort(sortO)
@@ -102,7 +100,7 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
                                     .lean()
                                     .exec()
                                     .then(cardPacks => {
-                                        console.log({cardPacks})
+                                        console.log({cardPacks: cardPacks?.length || 0})
 
                                         resCookie(res, user).status(200)
                                             .json({

@@ -15,7 +15,8 @@ export const getCardPacks = async (req: Request, res: Response, user: IUser) => 
         }
 
         let pageF = page && +page || 1;
-        const pageCountF = pageCount && +pageCount || 4;
+        let pageCountF = pageCount && +pageCount || 4;
+        if (pageCountF > 10) pageCountF = 10
 
         const sortPacksF: string = sortPacks as string | undefined || ""; // '0grade'
         const packNameF: string = packName as string | undefined || "";

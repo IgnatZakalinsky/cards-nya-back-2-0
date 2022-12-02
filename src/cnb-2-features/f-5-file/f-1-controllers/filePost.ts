@@ -5,7 +5,7 @@ export const filePost = (path: string, shop: Router) =>
 
     shop.post(path, async (req: Request, res: Response) => {
         const fileData = req.file;
-        console.log(fileData);
+        console.log({fileData});
 
         if (fileData) res.status(200).json({success: true, fileName: fileData.originalname});
 

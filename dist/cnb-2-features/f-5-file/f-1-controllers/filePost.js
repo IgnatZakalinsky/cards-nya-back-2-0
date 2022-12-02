@@ -16,7 +16,7 @@ exports.fileGet = exports.filePost = void 0;
 const fs_1 = __importDefault(require("fs"));
 const filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fileData = req.file;
-    console.log(fileData);
+    console.log({ fileData });
     if (fileData)
         res.status(200).json({ success: true, fileName: fileData.originalname });
     else

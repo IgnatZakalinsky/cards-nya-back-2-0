@@ -18,7 +18,7 @@ const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const grade_1 = __importDefault(require("../../c-2-models/grade"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
-exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortCards, cardAnswer, cardQuestion, min, max, cardsPack_id, type } = req.query;
     let pageF = page && +page || 1;
     const pageCountF = pageCount && +pageCount || 4;
@@ -55,7 +55,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
         .exec()
         .then((oldCardsPack) => {
         if (!oldCardsPack)
-            errorStatuses_1.status400(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "getCards", { query: req.query });
+            (0, errorStatuses_1.status400)(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "getCards", { query: req.query });
         else
             card_1.default.find({ cardsPack_id: cardsPack_idF })
                 .exec()
@@ -84,6 +84,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         cardsPack_id: cardsPack_idF,
                         question: new RegExp(cardQuestionF, "gi"),
                         answer: new RegExp(cardAnswerF, "gi"),
+                        // grade: {$gte: min && +min || minF, $lte: max && +max || maxF}
                     };
                     // Card.count({...findO})
                     //     .exec()
@@ -122,7 +123,7 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         if (pageCountF * (pageF - 1) > cardsF.length)
                             pageF = 1;
                         const cardsFF = cardsF.slice(pageCountF * (pageF - 1), pageCountF * pageF);
-                        cookie_1.resCookie(res, user).status(200)
+                        (0, cookie_1.resCookie)(res, user).status(200)
                             .json({
                             cards: cardsFF,
                             packUserId: oldCardsPack.user_id,
@@ -137,16 +138,17 @@ exports.getCards = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                             tokenDeathTime: user.tokenDeathTime,
                         });
                     })
-                        .catch(e => errorStatuses_1.status500(res, e, user, "getCards/Card.find"));
+                        .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCards/Card.find"));
                     // })
                     // .catch(e => status500(res, e, user, "getCards/Card.count"));
                 })
-                    .catch(e => errorStatuses_1.status500(res, e, user, "getCards/Grade.find"));
+                    .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCards/Grade.find"));
             })
-                .catch(e => errorStatuses_1.status500(res, e, user, "getCards/Card.find/all"));
+                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCards/Card.find/all"));
     })
-        .catch(e => errorStatuses_1.status500(res, e, user, "getCards/CardsPack.findById"));
+        .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCards/CardsPack.findById"));
 });
+exports.getCards = getCards;
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.
 // $gt Соответствует значениям, которые больше указанного значения.

@@ -9,7 +9,7 @@ const f_1_auth_1 = __importDefault(require("../cnb-2-features/f-1-auth"));
 const f_2_cards_1 = __importDefault(require("../cnb-2-features/f-2-cards"));
 const f_3_social_1 = __importDefault(require("../cnb-2-features/f-3-social"));
 const f_5_file_1 = __importDefault(require("../cnb-2-features/f-5-file"));
-exports.routes = (app) => {
+const routes = (app) => {
     app.use(config_1.VERSION_2_0 + "/auth", f_1_auth_1.default);
     app.use(config_1.VERSION_2_0 + "/cards", f_2_cards_1.default);
     app.use(config_1.VERSION_2_0 + "/social", f_3_social_1.default);
@@ -25,7 +25,7 @@ exports.routes = (app) => {
             ping,
             backTime,
             frontTime: frontTime > backTime ? "—ฅ/ᐠ.̫ .ᐟ\\ฅ—" : frontTime,
-            info: "please send me you time —ฅ/ᐠ.̫ .ᐟ\\ฅ—",
+            info: "please send me you time —ฅ/ᐠ.̫ .ᐟ\\ฅ—", // https://cutekaomoji.com/animals/cats/
         });
     });
     // default
@@ -40,4 +40,5 @@ exports.routes = (app) => {
         });
     });
 };
+exports.routes = routes;
 //# sourceMappingURL=routes.js.map

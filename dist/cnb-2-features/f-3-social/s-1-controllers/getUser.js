@@ -16,10 +16,10 @@ exports.getUser = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
 const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../cnb-1-main/cookie");
-exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.query;
     if (!id)
-        errorStatuses_1.status400(res, `No user id`, user, 'getUser');
+        (0, errorStatuses_1.status400)(res, `No user id`, user, 'getUser');
     else
         user_1.default.findById(id)
             .lean()
@@ -27,17 +27,18 @@ exports.getUser = (req, res, user) => __awaiter(void 0, void 0, void 0, function
             .exec()
             .then(userF => {
             if (!userF)
-                errorStatuses_1.status400(res, `user id not valid`, user, 'getUser/User.findById');
+                (0, errorStatuses_1.status400)(res, `user id not valid`, user, 'getUser/User.findById');
             else
-                cookie_1.resCookie(res, user).status(200)
+                (0, cookie_1.resCookie)(res, user).status(200)
                     .json({
                     user: userF,
                     token: user.token,
                     tokenDeathTime: user.tokenDeathTime,
                 });
         })
-            .catch(e => errorStatuses_1.status500(res, e, user, 'getUser/User.findById'));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'getUser/User.findById'));
 });
+exports.getUser = getUser;
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.
 // $gt Соответствует значениям, которые больше указанного значения.

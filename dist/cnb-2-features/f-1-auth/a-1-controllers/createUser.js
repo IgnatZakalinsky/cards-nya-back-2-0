@@ -17,9 +17,9 @@ const user_1 = __importDefault(require("../a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const config_1 = require("../../../cnb-1-main/config");
-exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    if (validators_1.validateAuth(req, res, "createUser")) {
+    if ((0, validators_1.validateAuth)(req, res, "createUser")) {
         try {
             const oldUser = yield user_1.default.findOne({ email }).exec();
             if (oldUser)
@@ -40,7 +40,7 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     // resetPasswordTokenDeathTime: 0,
                     created: new Date(),
                     updated: new Date(),
-                    _doc: {},
+                    _doc: {}, // crutch
                 });
                 const addedUser = Object.assign({}, user._doc);
                 delete addedUser.password; // don't send password to the front
@@ -59,4 +59,5 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
     }
 });
+exports.createUser = createUser;
 //# sourceMappingURL=createUser.js.map

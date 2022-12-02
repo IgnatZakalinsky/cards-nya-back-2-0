@@ -31,7 +31,7 @@ export const findUserByToken = (
                 else {
                     f(req, res, newUser._doc as IUser);
                 }
-            } catch (e) {
+            } catch (e: any) {
                 res.status(500).json({
                     error: "some error: " + e.message,
                     info: "Back doesn't know what the error is... ^._.^",
@@ -40,7 +40,7 @@ export const findUserByToken = (
                 });
             }
         }
-    } catch (e) {
+    } catch (e: any) {
         res.status(500).json({
             error: "some error: " + e.message,
             info: "Back doesn't know what the error is... ^._.^",

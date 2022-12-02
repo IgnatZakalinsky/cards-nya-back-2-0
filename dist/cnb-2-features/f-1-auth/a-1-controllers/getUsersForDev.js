@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsersForDev = void 0;
 // import User from "../a-2-models/user";
 // import {DEV_VERSION} from "../../../cnb-1-main/config";
-exports.getUsersForDev = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsersForDev = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // if (DEV_VERSION) {
     //     try {
     //         const users = await User.find({isAdmin: false})
@@ -34,4 +34,5 @@ exports.getUsersForDev = (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.status(401).json({ error: "endpoint is closed /ᐠ-ꞈ-ᐟ\\", in: "getUsersForDev" });
     // }
 });
+exports.getUsersForDev = getUsersForDev;
 //# sourceMappingURL=getUsersForDev.js.map

@@ -16,7 +16,7 @@ exports.getUsers = void 0;
 const user_1 = __importDefault(require("../../f-1-auth/a-2-models/user"));
 const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../cnb-1-main/cookie");
-exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, pageCount, sortUsers, userName, min, max, block } = req.query;
     const findF = {
         isDeleted: { $ne: true }
@@ -53,7 +53,7 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                     .then(usersTotalCount => {
                     if (pageCountF * (pageF - 1) > usersTotalCount)
                         pageF = 1;
-                    cookie_1.resCookie(res, user).status(200)
+                    (0, cookie_1.resCookie)(res, user).status(200)
                         .json({
                         users,
                         page: pageF, pageCount: pageCountF, usersTotalCount,
@@ -62,14 +62,15 @@ exports.getUsers = (req, res, user) => __awaiter(void 0, void 0, void 0, functio
                         tokenDeathTime: user.tokenDeathTime,
                     });
                 })
-                    .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.count'));
+                    .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'getUsers/User.count'));
             })
-                .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.find'));
+                .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'getUsers/User.find'));
         })
-            .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.findOne/max'));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'getUsers/User.findOne/max'));
     })
-        .catch(e => errorStatuses_1.status500(res, e, user, 'getUsers/User.findOne/min'));
+        .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'getUsers/User.findOne/min'));
 });
+exports.getUsers = getUsers;
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.
 // $gt Соответствует значениям, которые больше указанного значения.

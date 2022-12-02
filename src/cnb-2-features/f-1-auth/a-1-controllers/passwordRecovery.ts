@@ -60,7 +60,7 @@ export const passwordRecovery = async (req: Request, res: Response) => {
                     html: DEV_VERSION && html,
                 });
 
-            } catch (e) {
+            } catch (e: any) {
                 res.status(500).json({
                     error: "some error: " + e.message,
                     info: "Back doesn't know what the error is... ^._.^",
@@ -69,7 +69,7 @@ export const passwordRecovery = async (req: Request, res: Response) => {
                 });
             }
         }
-    } catch (e) {
+    } catch (e: any) {
         res.status(500).json({
             error: "some error: " + e.message,
             info: "Back doesn't know what the error is... ^._.^",

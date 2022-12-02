@@ -17,22 +17,22 @@ const card_1 = __importDefault(require("../../c-2-models/card"));
 const grade_1 = __importDefault(require("../../c-2-models/grade"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
-exports.updateGrade = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const updateGrade = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { grade, card_id } = req.body;
     if (!grade)
-        errorStatuses_1.status400(res, "No grade in body! /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
+        (0, errorStatuses_1.status400)(res, "No grade in body! /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
     else if (!card_id)
-        errorStatuses_1.status400(res, "No Card id in body! /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
+        (0, errorStatuses_1.status400)(res, "No Card id in body! /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
     else {
         const gradeF = isFinite(grade) ? +grade : undefined;
         if (!gradeF || (gradeF && (gradeF > 5 || gradeF < 0)))
-            errorStatuses_1.status400(res, `Grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "updateGrade");
+            (0, errorStatuses_1.status400)(res, `Grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "updateGrade");
         else
             card_1.default.findById(card_id)
                 .exec()
                 .then((oldCard) => {
                 if (!oldCard)
-                    errorStatuses_1.status400(res, "Card id not valid /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
+                    (0, errorStatuses_1.status400)(res, "Card id not valid /ᐠ-ꞈ-ᐟ\\", user, "updateGrade");
                 else {
                     grade_1.default.findOne({ user_id: user._id, card_id })
                         .then((oldGrade) => {
@@ -49,13 +49,13 @@ exports.updateGrade = (req, res, user) => __awaiter(void 0, void 0, void 0, func
                                 _doc: {},
                             })
                                 .then((newGrade) => {
-                                cookie_1.resCookie(res, user).status(201).json({
+                                (0, cookie_1.resCookie)(res, user).status(201).json({
                                     updatedGrade: newGrade,
                                     token: user.token,
                                     tokenDeathTime: user.tokenDeathTime
                                 });
                             })
-                                .catch(e => errorStatuses_1.status500(res, e, user, "updateGrade/Grade.create"));
+                                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "updateGrade/Grade.create"));
                         }
                         else {
                             const newShotsF = oldGrade.shots + 1;
@@ -67,21 +67,22 @@ exports.updateGrade = (req, res, user) => __awaiter(void 0, void 0, void 0, func
                                 .exec()
                                 .then((updatedGrade) => {
                                 if (!updatedGrade)
-                                    errorStatuses_1.status400(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "updateGrade");
+                                    (0, errorStatuses_1.status400)(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "updateGrade");
                                 else
-                                    cookie_1.resCookie(res, user).status(200).json({
+                                    (0, cookie_1.resCookie)(res, user).status(200).json({
                                         updatedGrade,
                                         token: user.token,
                                         tokenDeathTime: user.tokenDeathTime
                                     });
                             })
-                                .catch(e => errorStatuses_1.status500(res, e, user, "updateCard/Card.findByIdAndUpdate"));
+                                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "updateCard/Card.findByIdAndUpdate"));
                         }
                     })
-                        .catch(e => errorStatuses_1.status500(res, e, user, "updateGrade/Grade.findOne"));
+                        .catch(e => (0, errorStatuses_1.status500)(res, e, user, "updateGrade/Grade.findOne"));
                 }
             })
-                .catch(e => errorStatuses_1.status500(res, e, user, "updateGrade/Card.findById"));
+                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "updateGrade/Card.findById"));
     }
 });
+exports.updateGrade = updateGrade;
 //# sourceMappingURL=updateGrade.js.map

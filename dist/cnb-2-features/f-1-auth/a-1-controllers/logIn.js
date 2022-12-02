@@ -19,9 +19,9 @@ const config_1 = require("../../../cnb-1-main/config");
 const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const getMe_1 = require("./getMe");
-exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, rememberMe } = req.body;
-    if (validators_1.validateAuth(req, res, "logIn")) {
+    if ((0, validators_1.validateAuth)(req, res, "logIn")) {
         try {
             const user = yield user_1.default.findOne({ email }).exec();
             if (!user)
@@ -30,7 +30,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 res.status(400)
                     .json({ error: "not correct password /ᐠ-ꞈ-ᐟ\\", password, in: "logIn" });
             else {
-                const [token, tokenDeathTime] = generateToken_1.generateToken(!!rememberMe);
+                const [token, tokenDeathTime] = (0, generateToken_1.generateToken)(!!rememberMe);
                 try {
                     const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!rememberMe }, { new: true }).exec();
                     if (!newUser)
@@ -38,7 +38,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                             .json({ error: "not updated? /ᐠ｡ꞈ｡ᐟ\\", in: "logIn/User.findByIdAndUpdate" });
                     else {
                         // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
-                        yield getMe_1.getMe(req, res, newUser._doc);
+                        yield (0, getMe_1.getMe)(req, res, newUser._doc);
                     }
                 }
                 catch (e) {
@@ -61,4 +61,5 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
 });
+exports.logIn = logIn;
 //# sourceMappingURL=logIn.js.map

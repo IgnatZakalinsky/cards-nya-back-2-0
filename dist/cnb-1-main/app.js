@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.appUse = void 0;
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_1 = require("./cookie");
-exports.appUse = (app) => {
-    cookie_1.cookie(app);
+const appUse = (app) => {
+    (0, cookie_1.cookie)(app);
     // parse application/json
     app.use(body_parser_1.default.json({ limit: "1mb" }));
     // parse application/x-www-form-urlencoded
@@ -24,4 +24,5 @@ exports.appUse = (app) => {
         next();
     });
 };
+exports.appUse = appUse;
 //# sourceMappingURL=app.js.map

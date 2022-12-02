@@ -17,9 +17,9 @@ const user_1 = __importDefault(require("../a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const config_1 = require("../../../cnb-1-main/config");
-exports.setNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const setNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { resetPasswordToken, password } = req.body;
-    if (!validators_1.passwordValidator(password))
+    if (!(0, validators_1.passwordValidator)(password))
         res.status(400).json({
             error: "Password not valid! must be more than 7 characters /ᐠ-ꞈ-ᐟ\\",
             body: config_1.DEV_VERSION && req.body,
@@ -70,4 +70,5 @@ exports.setNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, functio
             });
         }
 });
+exports.setNewPassword = setNewPassword;
 //# sourceMappingURL=setNewPassword.js.map

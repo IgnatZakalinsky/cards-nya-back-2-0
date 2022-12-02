@@ -36,7 +36,7 @@ const transporter = nodemailer_1.default.createTransport({
         pass: process.env.GMAIL_PASS || config_1.GMAIL_PASS
     }
 });
-exports.sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
+const sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
     // for accept
     // https://myaccount.google.com/lesssecureapps
     const info = yield transporter.sendMail({
@@ -50,4 +50,5 @@ exports.sendMail = (from, to, subject, html, text) => __awaiter(void 0, void 0, 
         console.log("gmail info: ", info);
     return info;
 });
+exports.sendMail = sendMail;
 //# sourceMappingURL=gmail.js.map

@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addGeneralMessage = void 0;
 const generalChatMessage_1 = __importDefault(require("../s-2-models/generalChatMessage"));
 const errorStatuses_1 = require("../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
-exports.addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { message } = req.body;
     if (!message)
-        errorStatuses_1.status400(res, `No message in body!`, user, 'addGeneralMessage');
+        (0, errorStatuses_1.status400)(res, `No message in body!`, user, 'addGeneralMessage');
     else {
         generalChatMessage_1.default.create({
             user_id: user._id,
@@ -33,7 +33,8 @@ exports.addGeneralMessage = (req, res, user) => __awaiter(void 0, void 0, void 0
             token: user.token,
             tokenDeathTime: user.tokenDeathTime
         }))
-            .catch(e => errorStatuses_1.status500(res, e, user, 'addGeneralMessage/GeneralChatMessage.create'));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, 'addGeneralMessage/GeneralChatMessage.create'));
     }
 });
+exports.addGeneralMessage = addGeneralMessage;
 //# sourceMappingURL=addGeneralMessage.js.map

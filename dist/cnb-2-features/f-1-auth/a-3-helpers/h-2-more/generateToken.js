@@ -14,24 +14,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateToken = exports.generateResetPasswordToken = void 0;
 const user_1 = __importDefault(require("../../a-2-models/user"));
-const v1_1 = __importDefault(require("uuid/v1"));
-exports.generateResetPasswordToken = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+const uuid_1 = require("uuid");
+const generateResetPasswordToken = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     // const chars = "ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,"; // Il1Oo0CcSsUuVvWwXxZzB8Kk
     //
     // let password = "";
     // for (let i = 0; i < 9; i++) {
     //     password += chars[Math.floor(Math.random() * chars.length)];
     // }
-    const resetPasswordToken = v1_1.default();
+    const resetPasswordToken = (0, uuid_1.v1)();
     yield user_1.default.findByIdAndUpdate(userId, { resetPasswordToken, resetPasswordTokenDeathTime: Date.now() + (1000 * 60 * 10) }, // 10 min
     { new: true }).exec();
     return resetPasswordToken;
 });
-exports.generateToken = (rememberMe) => {
-    const token = v1_1.default();
+exports.generateResetPasswordToken = generateResetPasswordToken;
+const generateToken = (rememberMe) => {
+    const token = (0, uuid_1.v1)();
     const tokenDeathTime = rememberMe
         ? Date.now() + (1000 * 60 * 60 * 24 * 7) // 7 days
         : Date.now() + (1000 * 60 * 60 * 3); // 3 hours
     return [token, tokenDeathTime];
 };
+exports.generateToken = generateToken;
 //# sourceMappingURL=generateToken.js.map

@@ -21,9 +21,9 @@ const users: Array<UserInMessage & {socket?: Socket}> = [{_id: v1(), name: "test
 export const onConnect = (socketServer: Server) => (socket: Socket) => {
     console.log("a user connected");
     const user: UserInMessage & { socket?: Socket } = {
-        _id: socket.handshake.query._id || v1(),
-        name: socket.handshake.query.name || "anonymous",
-        avatar: socket.handshake.query.avatar || '',
+        _id: socket.handshake.query._id as string || v1(),
+        name: socket.handshake.query.name as string || "anonymous",
+        avatar: socket.handshake.query.avatar as string || '',
         socket};
 
     socket.on("init", init(socket, messages, users, user));

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fileGet = exports.filePost = void 0;
 const fs_1 = __importDefault(require("fs"));
-exports.filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fileData = req.file;
     console.log(fileData);
     if (fileData)
@@ -22,7 +22,8 @@ exports.filePost = (path, shop) => shop.post(path, (req, res) => __awaiter(void 
     else
         res.status(500).json({ error: 'some error, I hz :)' });
 }));
-exports.fileGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.filePost = filePost;
+const fileGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { url } = req.query;
     console.log(url);
     fs_1.default.readFile(__dirname + '/../../../uploads/file.jpg', (e, data) => {
@@ -33,4 +34,5 @@ exports.fileGet = (path, shop) => shop.get(path, (req, res) => __awaiter(void 0,
             res.status(500).json({ error: 'some error, I hz :)', errorObj: Object.assign({}, e) });
     });
 }));
+exports.fileGet = fileGet;
 //# sourceMappingURL=filePost.js.map

@@ -47,7 +47,7 @@ export const createUser = async (req: Request, res: Response) => {
 
                 res.status(201).json({addedUser});
             }
-        } catch (e) {
+        } catch (e: any) {
             res.status(500).json({
                 error: "some error: " + e.message,
                 info: "Back doesn't know what the error is... ^._.^",

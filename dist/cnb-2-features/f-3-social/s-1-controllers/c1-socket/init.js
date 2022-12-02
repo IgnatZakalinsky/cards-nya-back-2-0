@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.init = void 0;
-exports.init = (socket, messages, users, user) => (arg, answerF) => {
+const init = (socket, messages, users, user) => (arg, answerF) => {
     socket.emit("init-messages-published", messages);
     if (typeof arg === "string") {
         const userF = users.find(u => u._id === arg);
@@ -16,4 +16,5 @@ exports.init = (socket, messages, users, user) => (arg, answerF) => {
         }
     }
 };
+exports.init = init;
 //# sourceMappingURL=init.js.map

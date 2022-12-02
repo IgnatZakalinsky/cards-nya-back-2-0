@@ -17,24 +17,24 @@ const card_1 = __importDefault(require("../../c-2-models/card"));
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
-exports.deleteCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.query;
     if (!id)
-        errorStatuses_1.status400(res, "No Card id /ᐠ-ꞈ-ᐟ\\", user, "deleteCard", { query: req.query });
+        (0, errorStatuses_1.status400)(res, "No Card id /ᐠ-ꞈ-ᐟ\\", user, "deleteCard", { query: req.query });
     else
         card_1.default.findById(id)
             .exec()
             .then((cardF) => {
             if (!cardF)
-                errorStatuses_1.status400(res, "Card id not valid /ᐠ-ꞈ-ᐟ\\", user, "deleteCard/Card.findById", { query: req.query });
+                (0, errorStatuses_1.status400)(res, "Card id not valid /ᐠ-ꞈ-ᐟ\\", user, "deleteCard/Card.findById", { query: req.query });
             else if (!cardF.user_id.equals(user._id))
-                errorStatuses_1.status400(res, "not your Card! /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard", { query: req.query });
+                (0, errorStatuses_1.status400)(res, "not your Card! /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard", { query: req.query });
             else
                 card_1.default.findByIdAndDelete(id)
                     .exec()
                     .then((card) => {
                     if (!card)
-                        errorStatuses_1.status400(res, "Card id not valid /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard/Card.findByIdAndDelete", { query: req.query });
+                        (0, errorStatuses_1.status400)(res, "Card id not valid /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard/Card.findByIdAndDelete", { query: req.query });
                     else {
                         card_1.default.count({ cardsPack_id: card.cardsPack_id })
                             .exec()
@@ -43,21 +43,22 @@ exports.deleteCard = (req, res, user) => __awaiter(void 0, void 0, void 0, funct
                                 .exec()
                                 .then((updatedCardsPack) => {
                                 if (!updatedCardsPack)
-                                    errorStatuses_1.status400(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard");
+                                    (0, errorStatuses_1.status400)(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "deleteCard");
                                 else
-                                    cookie_1.resCookie(res, user).status(200).json({
+                                    (0, cookie_1.resCookie)(res, user).status(200).json({
                                         deletedCard: card,
                                         token: user.token,
                                         tokenDeathTime: user.tokenDeathTime
                                     });
                             })
-                                .catch(e => errorStatuses_1.status500(res, e, user, "deleteCard/CardsPack.findByIdAndUpdate"));
+                                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "deleteCard/CardsPack.findByIdAndUpdate"));
                         })
-                            .catch(e => errorStatuses_1.status500(res, e, user, "deleteCard/Card.count"));
+                            .catch(e => (0, errorStatuses_1.status500)(res, e, user, "deleteCard/Card.count"));
                     }
                 })
-                    .catch(e => errorStatuses_1.status500(res, e, user, "deleteCard/Card.findByIdAndDelete"));
+                    .catch(e => (0, errorStatuses_1.status500)(res, e, user, "deleteCard/Card.findByIdAndDelete"));
         })
-            .catch(e => errorStatuses_1.status500(res, e, user, "deleteCard/Card.findById"));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, "deleteCard/Card.findById"));
 });
+exports.deleteCard = deleteCard;
 //# sourceMappingURL=deleteCard.js.map

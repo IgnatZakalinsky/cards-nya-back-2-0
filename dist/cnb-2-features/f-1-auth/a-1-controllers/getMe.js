@@ -11,11 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMe = void 0;
 const cookie_1 = require("../../../cnb-1-main/cookie");
-exports.getMe = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getMe = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const body = Object.assign({}, user);
     delete body.password; // don't send password to the front
     delete body.resetPasswordToken;
     delete body.resetPasswordTokenDeathTime;
-    cookie_1.resCookie(res, user).status(200).json(Object.assign({}, body));
+    (0, cookie_1.resCookie)(res, user).status(200).json(Object.assign({}, body));
 });
+exports.getMe = getMe;
 //# sourceMappingURL=getMe.js.map

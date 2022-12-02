@@ -18,9 +18,9 @@ const config_1 = require("../../../cnb-1-main/config");
 const gmail_1 = require("../a-3-helpers/h-3-gmail/gmail");
 const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
-exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, html1, html2, message, from } = req.body;
-    if (!validators_1.emailValidator(email))
+    if (!(0, validators_1.emailValidator)(email))
         res.status(400)
             .json({ error: "Email address not valid /ᐠ-ꞈ-ᐟ\\", email, emailRegExp: validators_1.emailRegExp, in: "passwordRecovery" });
     else
@@ -31,7 +31,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                     .json({ error: "Email address not found /ᐠ-ꞈ-ᐟ\\", email, in: "passwordRecovery" });
             else {
                 try {
-                    const resetPasswordToken = yield generateToken_1.generateResetPasswordToken(user._id);
+                    const resetPasswordToken = yield (0, generateToken_1.generateResetPasswordToken)(user._id);
                     let html = message;
                     if (message && message.includes("$token$")) {
                         do {
@@ -50,7 +50,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                                 '</div>');
                     }
                     const fromFinal = from || "cards-nya <neko.nyakus.cafe@gmail.com>";
-                    const answer = yield gmail_1.sendMail(fromFinal, email, "password recovery", html);
+                    const answer = yield (0, gmail_1.sendMail)(fromFinal, email, "password recovery", html);
                     res.status(200).json({
                         info: "sent —ฅ/ᐠ.̫ .ᐟ\\ฅ—",
                         success: Boolean(answer.accepted && answer.accepted.length > 0),
@@ -77,4 +77,5 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
             });
         }
 });
+exports.passwordRecovery = passwordRecovery;
 //# sourceMappingURL=passwordRecovery.js.map

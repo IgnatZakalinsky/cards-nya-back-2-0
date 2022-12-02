@@ -16,19 +16,19 @@ exports.block = void 0;
 const user_1 = __importDefault(require("../a-2-models/user"));
 const cookie_1 = require("../../../cnb-1-main/cookie");
 const cardsPack_1 = __importDefault(require("../../f-2-cards/c-2-models/cardsPack"));
-exports.block = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const block = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, blockReason } = req.body;
     if (user.isBlocked) {
-        cookie_1.resCookie(res, user).status(400).json({ error: 'you blocked' });
+        (0, cookie_1.resCookie)(res, user).status(400).json({ error: 'you blocked' });
         return;
     }
     const u = yield user_1.default.findById(id);
     if (!u) {
-        cookie_1.resCookie(res, user).status(400).json({ error: 'no user by id: ' + id, body: req.body });
+        (0, cookie_1.resCookie)(res, user).status(400).json({ error: 'no user by id: ' + id, body: req.body });
         return;
     }
     if (u.isBlocked) {
-        cookie_1.resCookie(res, user).status(200).json({ warning: 'user was blocked' });
+        (0, cookie_1.resCookie)(res, user).status(200).json({ warning: 'user was blocked' });
         return;
     }
     u.blockReason = blockReason;
@@ -39,6 +39,7 @@ exports.block = (req, res, user) => __awaiter(void 0, void 0, void 0, function* 
     for (let p of ps) {
         yield cardsPack_1.default.findByIdAndUpdate(p._id, { isBlocked: true });
     }
-    cookie_1.resCookie(res, user).status(200).json({ user: 'blocked', blockedCardPacksCount: ps.length });
+    (0, cookie_1.resCookie)(res, user).status(200).json({ user: 'blocked', blockedCardPacksCount: ps.length });
 });
+exports.block = block;
 //# sourceMappingURL=block.js.map

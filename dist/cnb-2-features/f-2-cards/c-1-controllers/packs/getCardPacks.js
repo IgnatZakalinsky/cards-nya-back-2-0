@@ -16,7 +16,7 @@ exports.getCardPacks = void 0;
 const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
-exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page, pageCount, sortPacks, packName, min, max, user_id, type, block } = req.query;
         const findF = {
@@ -90,7 +90,7 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                         .exec()
                         .then(cardPacks => {
                         console.log({ cardPacks });
-                        cookie_1.resCookie(res, user).status(200)
+                        (0, cookie_1.resCookie)(res, user).status(200)
                             .json({
                             cardPacks,
                             page: pageF, pageCount: pageCountF, cardPacksTotalCount,
@@ -99,18 +99,19 @@ exports.getCardPacks = (req, res, user) => __awaiter(void 0, void 0, void 0, fun
                             tokenDeathTime: user.tokenDeathTime,
                         });
                     })
-                        .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.find"));
+                        .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCardPacks/CardsPack.find"));
                 })
-                    .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.count"));
+                    .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCardPacks/CardsPack.count"));
             })
-                .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.findOne/max"));
+                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCardPacks/CardsPack.findOne/max"));
         })
-            .catch(e => errorStatuses_1.status500(res, e, user, "getCardPacks/CardsPack.findOne/min"));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, "getCardPacks/CardsPack.findOne/min"));
     }
     catch (e) {
         console.log('error? ', e);
     }
 });
+exports.getCardPacks = getCardPacks;
 // Имя Описание
 // $eq Соответствует значениям, которые равны указанному значению.
 // $gt Соответствует значениям, которые больше указанного значения.

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import User from "../../a-2-models/user";
-import uuidv1 from "uuid/v1";
+import {v1} from "uuid";
 
 export const generateResetPasswordToken = async (userId: mongoose.Types.ObjectId) => {
     // const chars = "ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,"; // Il1Oo0CcSsUuVvWwXxZzB8Kk
@@ -10,7 +10,7 @@ export const generateResetPasswordToken = async (userId: mongoose.Types.ObjectId
     //     password += chars[Math.floor(Math.random() * chars.length)];
     // }
 
-    const resetPasswordToken = uuidv1();
+    const resetPasswordToken = v1();
 
     await User.findByIdAndUpdate(
         userId,
@@ -22,7 +22,7 @@ export const generateResetPasswordToken = async (userId: mongoose.Types.ObjectId
 };
 
 export const generateToken = (rememberMe: boolean): [string, number] => {
-    const token = uuidv1();
+    const token = v1();
     const tokenDeathTime = rememberMe
         ? Date.now() + (1000 * 60 * 60 * 24 * 7) // 7 days
         : Date.now() + (1000 * 60 * 60 * 3); // 3 hours

@@ -17,21 +17,21 @@ const cardsPack_1 = __importDefault(require("../../c-2-models/cardsPack"));
 const card_1 = __importDefault(require("../../c-2-models/card"));
 const errorStatuses_1 = require("../../../f-1-auth/a-3-helpers/h-2-more/errorStatuses");
 const cookie_1 = require("../../../../cnb-1-main/cookie");
-exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
+const addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const { card } = req.body;
     const cardsPack_idF = (card && card.cardsPack_id) || "";
     if (!card)
-        errorStatuses_1.status400(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
+        (0, errorStatuses_1.status400)(res, "No cardsPack in body! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
     else if (!cardsPack_idF)
-        errorStatuses_1.status400(res, "No cardsPack_id in card! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
+        (0, errorStatuses_1.status400)(res, "No cardsPack_id in card! /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
     else
         cardsPack_1.default.findById(cardsPack_idF)
             .exec()
             .then((oldCardsPack) => {
             if (!oldCardsPack)
-                errorStatuses_1.status400(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
+                (0, errorStatuses_1.status400)(res, "CardsPack id not valid /ᐠ-ꞈ-ᐟ\\", user, "addCard", { body: req.body });
             else if (!oldCardsPack.user_id.equals(user._id))
-                errorStatuses_1.status400(res, "not your CardsPack! /ᐠ｡ꞈ｡ᐟ\\", user, "addCard", { body: req.body });
+                (0, errorStatuses_1.status400)(res, "not your CardsPack! /ᐠ｡ꞈ｡ᐟ\\", user, "addCard", { body: req.body });
             else {
                 const answerF = card.answer || "no answer";
                 const questionF = card.question || "no question";
@@ -39,7 +39,7 @@ exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                 const gradeF = isFinite(card.grade) ? +card.grade : 0;
                 const shotsF = isFinite(card.shots) ? +card.shots : 0;
                 if (gradeF > 5 || gradeF < 0)
-                    errorStatuses_1.status400(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCard");
+                    (0, errorStatuses_1.status400)(res, `CardsPack grade [${gradeF}] not valid! must be between 0 and 5... /ᐠ-ꞈ-ᐟ\\`, user, "addCard");
                 else
                     card_1.default.create({
                         cardsPack_id: cardsPack_idF,
@@ -58,7 +58,7 @@ exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                         more_id: user._id,
                         created: new Date(),
                         updated: new Date(),
-                        _doc: {},
+                        _doc: {}, // crutch
                     })
                         .then((newCard) => {
                         card_1.default.count({ cardsPack_id: cardsPack_idF })
@@ -68,21 +68,22 @@ exports.addCard = (req, res, user) => __awaiter(void 0, void 0, void 0, function
                                 .exec()
                                 .then((updatedCardsPack) => {
                                 if (!updatedCardsPack)
-                                    errorStatuses_1.status400(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "addCard");
+                                    (0, errorStatuses_1.status400)(res, "not updated? /ᐠ｡ꞈ｡ᐟ\\", user, "addCard");
                                 else
-                                    cookie_1.resCookie(res, user).status(201).json({
+                                    (0, cookie_1.resCookie)(res, user).status(201).json({
                                         newCard,
                                         token: user.token,
                                         tokenDeathTime: user.tokenDeathTime
                                     });
                             })
-                                .catch(e => errorStatuses_1.status500(res, e, user, "addCard/CardsPack.findByIdAndUpdate"));
+                                .catch(e => (0, errorStatuses_1.status500)(res, e, user, "addCard/CardsPack.findByIdAndUpdate"));
                         })
-                            .catch(e => errorStatuses_1.status500(res, e, user, "addCard/Card.count"));
+                            .catch(e => (0, errorStatuses_1.status500)(res, e, user, "addCard/Card.count"));
                     })
-                        .catch(e => errorStatuses_1.status500(res, e, user, "addCard/Card.create"));
+                        .catch(e => (0, errorStatuses_1.status500)(res, e, user, "addCard/Card.create"));
             }
         })
-            .catch(e => errorStatuses_1.status500(res, e, user, "addCard/CardsPack.findById"));
+            .catch(e => (0, errorStatuses_1.status500)(res, e, user, "addCard/CardsPack.findById"));
 });
+exports.addCard = addCard;
 //# sourceMappingURL=addCard.js.map

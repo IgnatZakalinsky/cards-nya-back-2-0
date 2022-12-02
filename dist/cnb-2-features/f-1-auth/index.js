@@ -18,10 +18,10 @@ const auth = express_1.default.Router();
 auth.get("/", getUsersForDev_1.getUsersForDev); // for dev
 auth.post("/login", logIn_1.logIn);
 auth.post("/register", createUser_1.createUser);
-auth.post("/me", findUserByToken_1.findUserByToken(getMe_1.getMe, "getMe"));
-auth.post("/block", findUserByToken_1.findUserByToken(block_1.block, "block"));
-auth.put("/me", findUserByToken_1.findUserByToken(updateUser_1.updateUser, "updateUser"));
-auth.delete("/me", findUserByToken_1.findUserByToken(logOut_1.logOut, "logOut"));
+auth.post("/me", (0, findUserByToken_1.findUserByToken)(getMe_1.getMe, "getMe"));
+auth.post("/block", (0, findUserByToken_1.findUserByToken)(block_1.block, "block"));
+auth.put("/me", (0, findUserByToken_1.findUserByToken)(updateUser_1.updateUser, "updateUser"));
+auth.delete("/me", (0, findUserByToken_1.findUserByToken)(logOut_1.logOut, "logOut"));
 auth.post("/forgot", passwordRecovery_1.passwordRecovery);
 auth.post("/set-new-password", setNewPassword_1.setNewPassword);
 exports.default = auth;

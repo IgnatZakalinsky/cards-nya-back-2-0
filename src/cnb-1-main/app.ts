@@ -7,9 +7,9 @@ export const appUse = (app: Express) => {
     cookie(app);
 
     // parse application/json
-    app.use(bodyParser.json({limit: "1mb"}));
+    app.use(bodyParser.json({limit: "150kb"}));
     // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({limit: "1mb", extended: false}));
+    app.use(bodyParser.urlencoded({limit: "150kb", extended: false}));
 
     // доступ к файлам, ...возможно не нужен
     app.use('/static', express.static(__dirname + '/files'));

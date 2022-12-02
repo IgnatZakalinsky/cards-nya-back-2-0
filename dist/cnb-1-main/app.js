@@ -11,9 +11,9 @@ const multer_1 = __importDefault(require("multer"));
 const appUse = (app) => {
     (0, cookie_1.cookie)(app);
     // parse application/json
-    app.use(body_parser_1.default.json({ limit: "1mb" }));
+    app.use(body_parser_1.default.json({ limit: "150kb" }));
     // parse application/x-www-form-urlencoded
-    app.use(body_parser_1.default.urlencoded({ limit: "1mb", extended: false }));
+    app.use(body_parser_1.default.urlencoded({ limit: "150kb", extended: false }));
     // доступ к файлам, ...возможно не нужен
     app.use('/static', express_1.default.static(__dirname + '/files'));
     // Теперь чтобы обратиться к файлу about.html, необходимо отправить запрос http://localhost:3000/static/about.html.

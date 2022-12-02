@@ -5,19 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-// import socketIo from "socket.io";
+const socket_io_1 = require("socket.io");
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("./cnb-1-main/config");
 const app_1 = require("./cnb-1-main/app");
 const routes_1 = require("./cnb-1-main/routes");
-// import {onConnect} from "./cnb-2-features/f-3-social/s-1-controllers/c1-socket";
+const c1_socket_1 = require("./cnb-2-features/f-3-social/s-1-controllers/c1-socket");
 // xxx
 const app = (0, express_1.default)();
 (0, app_1.appUse)(app);
 (0, routes_1.routes)(app);
 const server = http_1.default.createServer(app);
-// const socketServer = socketIo(server);
-// socketServer.on('connection', onConnect(socketServer));
+const socketServer = new socket_io_1.Server(server);
+socketServer.on('connection', (0, c1_socket_1.onConnect)(socketServer));
 /////////////////////////////////////////////////////////////////
 console.log({ MongoDBUris: config_1.MongoDBUris });
 mongoose_1.default.connect(config_1.MongoDBUris, {

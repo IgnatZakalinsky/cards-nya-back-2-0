@@ -3,11 +3,13 @@ import {VERSION_2_0} from "./config";
 import auth from "../cnb-2-features/f-1-auth";
 import cards from "../cnb-2-features/f-2-cards";
 import social from "../cnb-2-features/f-3-social";
+import file from "../cnb-2-features/f-5-file";
 
 export const routes = (app: Express) => {
     app.use(VERSION_2_0 + "/auth", auth);
     app.use(VERSION_2_0 + "/cards", cards);
     app.use(VERSION_2_0 + "/social", social);
+    app.use('/file', file);
 
     // ping endpoint
     app.use(VERSION_2_0 + "/ping", (req: Request, res: Response) => {

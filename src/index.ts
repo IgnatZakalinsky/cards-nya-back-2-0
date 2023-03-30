@@ -28,6 +28,9 @@ mongoose.connect(MongoDBUris, {
 })
     .then(() => {
         console.log("Nya-MongoDB connected successfully");
+        setInterval(() => {
+            console.log('xxx')
+        }, 1000)
 
         const port = process.env.PORT || PORT;
 

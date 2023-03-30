@@ -28,9 +28,9 @@ mongoose_1.default.connect(config_1.MongoDBUris, {
 })
     .then(() => {
     console.log("Nya-MongoDB connected successfully");
-    setInterval(() => {
-        console.log('xxx');
-    }, 1000);
+    // setInterval(() => {
+    //     console.log('xxx')
+    // }, 1000)
     const port = process.env.PORT || config_1.PORT;
     server.listen(port, () => {
         console.log("Cards-Nya-back 2.0 listening on port: " + port);
